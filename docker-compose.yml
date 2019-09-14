@@ -1,0 +1,18 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+  db:
+    image: "mdillon/postgis"
+    container_name: "shrike_db"
+    environment:
+      - POSTGRES_PASSWORD=tern
+      - POSTGRES_USER=tern
+    ports:
+      - "5432:5432"
+    volumes:
+      - shrike_dbdata:/var/lib/postgresql/data
+volumes:
+  shrike_dbdata:
