@@ -18,7 +18,7 @@ RUN go mod download
 COPY . .
 RUN make protogen
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -v -o bin/shrike ./server/shrike.go
+    go build -v -o bin/shrike ./shrike.go
 FROM alpine:latest
 WORKDIR /docker/bin
 COPY --from=goimage /app/bin/shrike /docker/bin/

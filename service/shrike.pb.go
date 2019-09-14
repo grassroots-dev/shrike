@@ -112,17 +112,16 @@ func init() {
 func init() { proto.RegisterFile("shrike.proto", fileDescriptor_2311c9d8f30f83c3) }
 
 var fileDescriptor_2311c9d8f30f83c3 = []byte{
-	// 152 bytes of a gzipped FileDescriptorProto
+	// 139 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x29, 0xce, 0x28, 0xca,
 	0xcc, 0x4e, 0xd5, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x83, 0xf0, 0x94, 0x94, 0xb8, 0x78,
 	0x3c, 0x52, 0x73, 0x72, 0xf2, 0x83, 0x52, 0x0b, 0x4b, 0x53, 0x8b, 0x4b, 0x84, 0x84, 0xb8, 0x58,
 	0xf2, 0x12, 0x73, 0x53, 0x25, 0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0xc0, 0x6c, 0x25, 0x35, 0x2e,
 	0x2e, 0xa8, 0x9a, 0x82, 0x9c, 0x4a, 0x21, 0x09, 0x2e, 0xf6, 0xdc, 0xd4, 0xe2, 0xe2, 0xc4, 0x74,
-	0x98, 0x22, 0x18, 0xd7, 0xa8, 0x8e, 0x8b, 0xdd, 0xbd, 0x28, 0x35, 0xb5, 0x24, 0xb5, 0x48, 0xc8,
+	0x98, 0x22, 0x18, 0xd7, 0xc8, 0x91, 0x8b, 0xdd, 0xbd, 0x28, 0x35, 0xb5, 0x24, 0xb5, 0x48, 0xc8,
 	0x8c, 0x8b, 0x23, 0x38, 0xb1, 0x12, 0xac, 0x4b, 0x48, 0x44, 0x0f, 0x6a, 0x33, 0xb2, 0x45, 0x52,
-	0x42, 0x68, 0xa2, 0x05, 0x39, 0x95, 0x4a, 0x0c, 0x42, 0xd6, 0x5c, 0xbc, 0x30, 0x7d, 0x8e, 0xe9,
-	0x89, 0x99, 0x79, 0xa4, 0x68, 0x4e, 0x62, 0x03, 0x7b, 0xcd, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff,
-	0x45, 0xaa, 0xda, 0xb5, 0xea, 0x00, 0x00, 0x00,
+	0x42, 0x68, 0xa2, 0x05, 0x39, 0x95, 0x4a, 0x0c, 0x49, 0x6c, 0x60, 0xd7, 0x19, 0x03, 0x02, 0x00,
+	0x00, 0xff, 0xff, 0x80, 0x4a, 0x19, 0x61, 0xad, 0x00, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -139,8 +138,6 @@ const _ = grpc.SupportPackageIsVersion4
 type GreeterClient interface {
 	// Sends a greeting
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
-	// Sends another greeting
-	SayHelloAgain(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
 }
 
 type greeterClient struct {
@@ -160,21 +157,10 @@ func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...
 	return out, nil
 }
 
-func (c *greeterClient) SayHelloAgain(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/shrike.Greeter/SayHelloAgain", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // GreeterServer is the server API for Greeter service.
 type GreeterServer interface {
 	// Sends a greeting
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
-	// Sends another greeting
-	SayHelloAgain(context.Context, *HelloRequest) (*HelloReply, error)
 }
 
 // UnimplementedGreeterServer can be embedded to have forward compatible implementations.
@@ -183,9 +169,6 @@ type UnimplementedGreeterServer struct {
 
 func (*UnimplementedGreeterServer) SayHello(ctx context.Context, req *HelloRequest) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
-}
-func (*UnimplementedGreeterServer) SayHelloAgain(ctx context.Context, req *HelloRequest) (*HelloReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SayHelloAgain not implemented")
 }
 
 func RegisterGreeterServer(s *grpc.Server, srv GreeterServer) {
@@ -210,24 +193,6 @@ func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Greeter_SayHelloAgain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GreeterServer).SayHelloAgain(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/shrike.Greeter/SayHelloAgain",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).SayHelloAgain(ctx, req.(*HelloRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _Greeter_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "shrike.Greeter",
 	HandlerType: (*GreeterServer)(nil),
@@ -235,10 +200,6 @@ var _Greeter_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SayHello",
 			Handler:    _Greeter_SayHello_Handler,
-		},
-		{
-			MethodName: "SayHelloAgain",
-			Handler:    _Greeter_SayHelloAgain_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
