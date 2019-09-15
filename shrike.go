@@ -7,6 +7,7 @@ import (
 
 	pb "github.com/grassroots-dev/shrike/api"
 	"github.com/grassroots-dev/shrike/service"
+	"github.com/grassroots-dev/shrike/store"
 
 	"github.com/grassroots-dev/shrike/interceptors"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
@@ -46,7 +47,7 @@ func main() {
 	flag.StringVar(&cfg.DatastoreDBPassword, "db-password", "tern", "Database password")
 	flag.StringVar(&cfg.DatastoreDBSchema, "db-schema", "tern", "Database schema")
 	flag.Parse()
-
+	store.RunPGExample()
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
