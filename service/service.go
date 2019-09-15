@@ -6,6 +6,7 @@ import (
 	"log"
 
 	pb "github.com/grassroots-dev/shrike/api"
+	"github.com/grassroots-dev/shrike/store"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -28,6 +29,7 @@ func (s *Service) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloR
 	log.Printf("DB is : %v", s.DB)
 	log.Printf("Test updates Cache is : %v", s.Cache)
 	log.Printf("Storage is : %v", s.Storage)
+	store.RunPGExample()
 	err := errors.New("can't work with 42")
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
