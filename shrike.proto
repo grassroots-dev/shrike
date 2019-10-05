@@ -1,19 +1,31 @@
 syntax = "proto3";
 package shrike;
 
-// The greeting service definition.
-service Greeter {
-    // Sends a greeting
-    rpc SayHello (HelloRequest) returns (HelloReply) {}  
+// Shrike is a web service for coordinating political campaigns, volunteer efforts, and fund raising.
+service Shrike {
+    // Checks for the current configuration state of service.
+    rpc CheckConfiguration (StubRequest) returns (StubResponse) {}
+    // Configures a fresh instance of the shrike service when booting without a configuration.
+    rpc Configure (StubRequest) returns (StubResponse) {}
+
+    rpc CheckUser (StubRequest) returns (StubResponse) {}
+    rpc CreateUser(StubRequest) returns (StubResponse) {}
+
+    rpc CreateMovement (StubRequest) returns (StubResponse) {}
+    rpc ArchiveMovement (StubRequest) returns (StubResponse) {}
+
+    rpc CreateLandingPage (StubRequest) returns (StubResponse) {}
+    rpc ArchiveLandingPage (StubRequest) returns (StubResponse) {}
+
   }
   
-  // The request message containing the user's name.
-  message HelloRequest {
-    string name = 1;
-  }
-  
-  // The response message containing the greetings
-  message HelloReply {
-    string message = 1;
-  }
-  
+    // Simple request message for stubbed service calls..
+    message StubRequest {
+      string name = 1;
+    }
+    
+    // Simple response message for stubbed service calls..
+    message StubResponse{
+      string message = 1;
+    }
+    

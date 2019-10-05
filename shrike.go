@@ -55,7 +55,7 @@ func main() {
 	),
 	),
 	)
-	pb.RegisterGreeterServer(s, service.NewService("db", "cache", "storage"))
+	pb.RegisterShrikeServer(s, service.NewService("db", "cache", "storage"))
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

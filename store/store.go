@@ -31,7 +31,7 @@ func (s Story) String() string {
 }
 
 // RunPGExample runs the pg ORM example.
-func RunPGExample() {
+func RunPGExample() error {
 	db := pg.Connect(&pg.Options{
 		User:       "tern",
 		Password:   "tern",
@@ -43,7 +43,7 @@ func RunPGExample() {
 
 	err := createSchema(db)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	user1 := &User{
@@ -52,7 +52,7 @@ func RunPGExample() {
 	}
 	err = db.Insert(user1)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	err = db.Insert(&User{
@@ -60,7 +60,7 @@ func RunPGExample() {
 		Emails: []string{"root1@root", "root2@root"},
 	})
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	story1 := &Story{
@@ -69,21 +69,21 @@ func RunPGExample() {
 	}
 	err = db.Insert(story1)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// Select user by primary key.
 	user := &User{ID: user1.ID}
 	err = db.Select(user)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// Select all users.
 	var users []User
 	err = db.Model(&users).Select()
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// Select story and associated author in one query.
@@ -93,7 +93,7 @@ func RunPGExample() {
 		Where("story.ID = ?", story1.ID).
 		Select()
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	fmt.Println(user)
@@ -102,6 +102,7 @@ func RunPGExample() {
 	// Output: User<1 admin [admin1@admin admin2@admin]>
 	// [User<1 admin [admin1@admin admin2@admin]> User<2 root [root1@root root2@root]>]
 	// Story<1 Cool story User<1 admin [admin1@admin admin2@admin]>>
+	return nil
 }
 
 func createSchema(db *pg.DB) error {
