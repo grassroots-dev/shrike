@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	pb "github.com/grassroots-dev/shrike/api"
 	"github.com/grassroots-dev/shrike/store"
@@ -23,10 +24,9 @@ func NewService(db string, cache string, storage string) *Service {
 
 // CheckConfiguration will check the current configuration state.
 func (s *Service) CheckConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	store.RunPGExample()
 	err := store.RunPGExample()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CheckConfiguration"}, nil
@@ -34,10 +34,9 @@ func (s *Service) CheckConfiguration(ctx context.Context, in *pb.StubRequest) (*
 
 // Configure will configure a new running instance of the shrike service.
 func (s *Service) Configure(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	store.RunPGExample()
 	err := store.RunPGExample()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to set configuration ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for Configure"}, nil
@@ -45,10 +44,9 @@ func (s *Service) Configure(ctx context.Context, in *pb.StubRequest) (*pb.StubRe
 
 // CheckUser will configure a new running instance of the shrike service.
 func (s *Service) CheckUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	store.RunPGExample()
 	err := store.RunPGExample()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
+		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account -> "+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CheckUser"}, nil
@@ -56,10 +54,9 @@ func (s *Service) CheckUser(ctx context.Context, in *pb.StubRequest) (*pb.StubRe
 
 // CreateUser will configure a new running instance of the shrike service.
 func (s *Service) CreateUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	store.RunPGExample()
 	err := store.RunPGExample()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to create user -> "+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CreateUser"}, nil
@@ -67,10 +64,9 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.StubRequest) (*pb.StubR
 
 // CreateMovement will create a new movement and all dependencies.
 func (s *Service) CreateMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	store.RunPGExample()
 	err := store.RunPGExample()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to create movement ->  "+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CreateMovement"}, nil
@@ -78,10 +74,9 @@ func (s *Service) CreateMovement(ctx context.Context, in *pb.StubRequest) (*pb.S
 
 // ArchiveMovement will archive an active movement.
 func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	store.RunPGExample()
 	err := store.RunPGExample()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to archive movement ->  "+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ArchiveMovement"}, nil
@@ -89,10 +84,9 @@ func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.
 
 // CreateLandingPage will create a new landing page belonging to a movement and all dependencies.
 func (s *Service) CreateLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	store.RunPGExample()
 	err := store.RunPGExample()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to create landing page ->  "+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CreateLandingPage"}, nil
@@ -100,11 +94,21 @@ func (s *Service) CreateLandingPage(ctx context.Context, in *pb.StubRequest) (*p
 
 // ArchiveLandingPage will archive an active landing page.
 func (s *Service) ArchiveLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	store.RunPGExample()
 	err := store.RunPGExample()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account-> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to archive landing page -> "+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ArchiveLandingPage"}, nil
+}
+
+// GetVolunteerLocationStream will archive an active landing page.
+func (s *Service) GetVolunteerLocationStream(in *pb.StubRequest, stream pb.Shrike_GetVolunteerLocationStreamServer) error {
+	for {
+		time.Sleep(1 * time.Second)
+		if err := stream.Send(&pb.StubResponse{Message: "hello!"}); err != nil {
+			return err
+		}
+
+	}
 }

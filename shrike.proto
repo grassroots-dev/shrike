@@ -16,6 +16,7 @@ service Shrike {
 
     rpc CreateLandingPage (StubRequest) returns (StubResponse) {}
     rpc ArchiveLandingPage (StubRequest) returns (StubResponse) {}
+    rpc GetVolunteerLocationStream (StubRequest) returns (stream StubResponse) {}
 
   }
   

@@ -14,10 +14,6 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-const (
-	port = ":50051"
-)
-
 // Config is configuration for Server
 type Config struct {
 	// gRPC server start parameters section
@@ -38,23 +34,32 @@ type Config struct {
 }
 
 func main() {
+	// Parse command line config values into config object.
 	var cfg Config
-	flag.StringVar(&cfg.GRPCPort, "grpc-port", "9091", "gRPC port to bind")
+	flag.StringVar(&cfg.GRPCPort, "grpc-port", ":50051", "gRPC port to bind")
 	flag.StringVar(&cfg.HTTPPort, "http-port", "8080", "HTTP port to bind")
-	flag.StringVar(&cfg.DatastoreDBHost, "db-host", "localhost", "Database host")
+	flag.StringVar(&cfg.DatastoreDBHost, "db-host", "db", "Database host")
 	flag.StringVar(&cfg.DatastoreDBUser, "db-user", "tern", "Database user")
 	flag.StringVar(&cfg.DatastoreDBPassword, "db-password", "tern", "Database password")
 	flag.StringVar(&cfg.DatastoreDBSchema, "db-schema", "tern", "Database schema")
 	flag.Parse()
-	lis, err := net.Listen("tcp", port)
+	log.Println("Launching shrike service..")
+	// Initialize port for gRPC server to listen on.
+	lis, err := net.Listen("tcp", cfg.GRPCPort)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+
+	// Creates the grpc server with interceptors.
 	s := grpc.NewServer(grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
 		interceptors.LoggingInterceptor,
+		interceptors.WebHookInterceptor,
+		interceptors.AuthInterceptor,
 	),
 	),
 	)
+
+	// Configures the server with the shrike service and turns on reflection.
 	pb.RegisterShrikeServer(s, service.NewService("db", "cache", "storage"))
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
