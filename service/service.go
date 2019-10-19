@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	pb "github.com/grassroots-dev/shrike/api"
@@ -22,91 +23,191 @@ func NewService(db string, cache string, storage string) *Service {
 	return &Service{DB: "hello db", Cache: "hello cache", Storage: "hello storage"}
 }
 
-// CheckConfiguration will check the current configuration state.
-func (s *Service) CheckConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+// CreateConfiguration will check the current configuration state.
+func (s *Service) CreateConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: "Response for CheckConfiguration"}, nil
+	return &pb.StubResponse{Message: "Response for CreateConfiguration"}, nil
 }
 
-// Configure will configure a new running instance of the shrike service.
-func (s *Service) Configure(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+// ReadConfiguration will check the current configuration state.
+func (s *Service) ReadConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to set configuration ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: "Configuration initialized."}, nil
+	return &pb.StubResponse{Message: "Response for ReadConfiguration"}, nil
 }
 
-// ResetConfiguration will reset the service to factory settings.
-func (s *Service) ResetConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.ResetDB()
-	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to reset configuration ->"+err.Error())
-	}
-
-	return &pb.StubResponse{Message: "Configuration destroyed."}, nil
-}
-
-// CheckUser will return the currently logged in user..
-func (s *Service) CheckUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+// UpdateConfiguration will check the current configuration state.
+func (s *Service) UpdateConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account -> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: "Response for CheckUser"}, nil
+	return &pb.StubResponse{Message: "Response for UpdateConfiguration"}, nil
 }
 
-// CreateUser will create a new user and associated resources.
+// DestroyConfiguration will check the current configuration state.
+func (s *Service) DestroyConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.DestroyDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Destroyed configuration."}, nil
+}
+
+// CreateUser will check the current User state.
 func (s *Service) CreateUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to create user -> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CreateUser"}, nil
 }
 
-// CreateMovement will create a new movement and all dependencies.
-func (s *Service) CreateMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+// ReadUser will check the current User state.
+func (s *Service) ReadUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to create movement ->  "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: "Response for CreateMovement"}, nil
+	return &pb.StubResponse{Message: "Response for ReadUser"}, nil
 }
 
-// ArchiveMovement will archive an active movement.
-func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+// ListUsers will check the current User state.
+func (s *Service) ListUsers(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to archive movement ->  "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for ReadUser"}, nil
+}
+
+// UpdateUser will check the current User state.
+func (s *Service) UpdateUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.InitializeDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for UpdateUser"}, nil
+}
+
+// ArchiveUser will check the current User state.
+func (s *Service) ArchiveUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.DestroyDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for ArchiveUser"}, nil
+}
+
+// CreateMovement will check the current Movement state.
+func (s *Service) CreateMovement(ctx context.Context, in *pb.CreateMovementRequest) (*pb.StubResponse, error) {
+	newID, err := store.CreateMovement(in.Title)
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: fmt.Sprintf("Succsefully created: %v", *newID)}, nil
+}
+
+// ReadMovement will check the current Movement state.
+func (s *Service) ReadMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.InitializeDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for ReadMovement"}, nil
+}
+
+// ListMovements will check the current Movement state.
+func (s *Service) ListMovements(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.InitializeDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for ReadMovement"}, nil
+}
+
+// UpdateMovement will check the current Movement state.
+func (s *Service) UpdateMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.InitializeDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for UpdateMovement"}, nil
+}
+
+// ArchiveMovement will check the current Movement state.
+func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.DestroyDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ArchiveMovement"}, nil
 }
 
-// CreateLandingPage will create a new landing page belonging to a movement and all dependencies.
+// CreateLandingPage will check the current LandingPage state.
 func (s *Service) CreateLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to create landing page ->  "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CreateLandingPage"}, nil
 }
 
-// ArchiveLandingPage will archive an active landing page.
-func (s *Service) ArchiveLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+// ReadLandingPage will check the current LandingPage state.
+func (s *Service) ReadLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to archive landing page -> "+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for ReadLandingPage"}, nil
+}
+
+// ListLandingPages will check the current LandingPage state.
+func (s *Service) ListLandingPages(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.InitializeDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for ReadLandingPage"}, nil
+}
+
+// UpdateLandingPage will check the current LandingPage state.
+func (s *Service) UpdateLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.InitializeDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Response for UpdateLandingPage"}, nil
+}
+
+// ArchiveLandingPage will check the current LandingPage state.
+func (s *Service) ArchiveLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.DestroyDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ArchiveLandingPage"}, nil

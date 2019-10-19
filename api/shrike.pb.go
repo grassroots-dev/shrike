@@ -24,6 +24,45 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type UUID struct {
+	Value                string   `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UUID) Reset()         { *m = UUID{} }
+func (m *UUID) String() string { return proto.CompactTextString(m) }
+func (*UUID) ProtoMessage()    {}
+func (*UUID) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2311c9d8f30f83c3, []int{0}
+}
+
+func (m *UUID) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UUID.Unmarshal(m, b)
+}
+func (m *UUID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UUID.Marshal(b, m, deterministic)
+}
+func (m *UUID) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UUID.Merge(m, src)
+}
+func (m *UUID) XXX_Size() int {
+	return xxx_messageInfo_UUID.Size(m)
+}
+func (m *UUID) XXX_DiscardUnknown() {
+	xxx_messageInfo_UUID.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UUID proto.InternalMessageInfo
+
+func (m *UUID) GetValue() string {
+	if m != nil {
+		return m.Value
+	}
+	return ""
+}
+
 // Simple request message for stubbed service calls..
 type StubRequest struct {
 	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -36,7 +75,7 @@ func (m *StubRequest) Reset()         { *m = StubRequest{} }
 func (m *StubRequest) String() string { return proto.CompactTextString(m) }
 func (*StubRequest) ProtoMessage()    {}
 func (*StubRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2311c9d8f30f83c3, []int{0}
+	return fileDescriptor_2311c9d8f30f83c3, []int{1}
 }
 
 func (m *StubRequest) XXX_Unmarshal(b []byte) error {
@@ -76,7 +115,7 @@ func (m *StubResponse) Reset()         { *m = StubResponse{} }
 func (m *StubResponse) String() string { return proto.CompactTextString(m) }
 func (*StubResponse) ProtoMessage()    {}
 func (*StubResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2311c9d8f30f83c3, []int{1}
+	return fileDescriptor_2311c9d8f30f83c3, []int{2}
 }
 
 func (m *StubResponse) XXX_Unmarshal(b []byte) error {
@@ -104,32 +143,81 @@ func (m *StubResponse) GetMessage() string {
 	return ""
 }
 
+type CreateMovementRequest struct {
+	Title                string   `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CreateMovementRequest) Reset()         { *m = CreateMovementRequest{} }
+func (m *CreateMovementRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateMovementRequest) ProtoMessage()    {}
+func (*CreateMovementRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2311c9d8f30f83c3, []int{3}
+}
+
+func (m *CreateMovementRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateMovementRequest.Unmarshal(m, b)
+}
+func (m *CreateMovementRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateMovementRequest.Marshal(b, m, deterministic)
+}
+func (m *CreateMovementRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateMovementRequest.Merge(m, src)
+}
+func (m *CreateMovementRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateMovementRequest.Size(m)
+}
+func (m *CreateMovementRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateMovementRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateMovementRequest proto.InternalMessageInfo
+
+func (m *CreateMovementRequest) GetTitle() string {
+	if m != nil {
+		return m.Title
+	}
+	return ""
+}
+
 func init() {
+	proto.RegisterType((*UUID)(nil), "shrike.UUID")
 	proto.RegisterType((*StubRequest)(nil), "shrike.StubRequest")
 	proto.RegisterType((*StubResponse)(nil), "shrike.StubResponse")
+	proto.RegisterType((*CreateMovementRequest)(nil), "shrike.CreateMovementRequest")
 }
 
 func init() { proto.RegisterFile("shrike.proto", fileDescriptor_2311c9d8f30f83c3) }
 
 var fileDescriptor_2311c9d8f30f83c3 = []byte{
-	// 261 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x92, 0x31, 0x4f, 0xc3, 0x30,
-	0x14, 0x84, 0x89, 0x04, 0x41, 0x7d, 0x54, 0x20, 0x0c, 0x43, 0xd5, 0x09, 0x32, 0x75, 0xaa, 0x10,
-	0x2c, 0x30, 0x80, 0x88, 0x32, 0x30, 0x50, 0x24, 0x94, 0x08, 0x76, 0x37, 0x1c, 0x89, 0x55, 0x62,
-	0x17, 0xfb, 0xa5, 0x3f, 0x83, 0xdf, 0x8c, 0x88, 0x1b, 0x09, 0x46, 0x87, 0xcd, 0xcf, 0xba, 0xef,
-	0xee, 0x64, 0x3f, 0x1a, 0xbb, 0xda, 0xaa, 0x15, 0xe6, 0x6b, 0x6b, 0xd8, 0x88, 0xd8, 0x4f, 0xc9,
-	0x39, 0x1d, 0x14, 0xdc, 0x2e, 0x73, 0x7c, 0xb6, 0x70, 0x2c, 0x04, 0xed, 0x6a, 0xd9, 0x60, 0x12,
-	0x9d, 0x45, 0xb3, 0x51, 0xde, 0x9d, 0x93, 0x19, 0x8d, 0xbd, 0xc4, 0xad, 0x8d, 0x76, 0x10, 0x13,
-	0xda, 0x6f, 0xe0, 0x9c, 0xac, 0x7a, 0x59, 0x3f, 0x5e, 0x7e, 0xed, 0x51, 0x5c, 0x74, 0xbe, 0x22,
-	0x25, 0x91, 0xd5, 0x28, 0x57, 0x99, 0xd1, 0xef, 0xaa, 0x6a, 0xad, 0x64, 0x65, 0xb4, 0x38, 0x99,
-	0x6f, 0x4b, 0xfc, 0xca, 0x9c, 0x9e, 0xfe, 0xbd, 0xf4, 0x29, 0xc9, 0x8e, 0xb8, 0xa6, 0x51, 0x4f,
-	0x23, 0x8c, 0x4c, 0x49, 0xe4, 0x70, 0xe0, 0x7f, 0x86, 0xff, 0xf4, 0x7f, 0x71, 0xb0, 0x61, 0xe4,
-	0x0d, 0x51, 0x66, 0x21, 0x19, 0xe1, 0xe8, 0x2d, 0x1d, 0x7a, 0xf4, 0xc9, 0x6c, 0xd0, 0x40, 0x73,
-	0x18, 0x7e, 0x47, 0x47, 0xa9, 0x2d, 0x6b, 0xb5, 0x19, 0xc8, 0xdf, 0xd3, 0xb1, 0x8f, 0x5f, 0x48,
-	0xfd, 0xa6, 0x74, 0xf5, 0x2c, 0xab, 0xf0, 0x87, 0xdf, 0x36, 0x18, 0x6c, 0xf1, 0x48, 0xd3, 0x07,
-	0xf0, 0xab, 0xf9, 0x68, 0x35, 0x03, 0x76, 0x61, 0xca, 0xee, 0xf7, 0x0a, 0xb6, 0x90, 0x4d, 0x90,
-	0xd5, 0x45, 0xb4, 0x8c, 0xbb, 0x65, 0xbf, 0xfa, 0x0e, 0x00, 0x00, 0xff, 0xff, 0x91, 0xa1, 0x3e,
-	0x1d, 0xfc, 0x02, 0x00, 0x00,
+	// 385 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x94, 0x4f, 0x6b, 0xea, 0x40,
+	0x14, 0xc5, 0x9f, 0xa0, 0xbe, 0xe7, 0xd5, 0xe7, 0x7b, 0x8e, 0x29, 0x88, 0xb4, 0xd0, 0x66, 0xe5,
+	0xa6, 0x52, 0xda, 0x45, 0xff, 0xb7, 0xfe, 0x03, 0x29, 0xb5, 0x50, 0x94, 0x74, 0x3f, 0xea, 0x6d,
+	0x1c, 0x6a, 0x66, 0xec, 0xcc, 0x44, 0xe8, 0xf7, 0xe8, 0x07, 0x2e, 0xc9, 0x18, 0x51, 0x68, 0x17,
+	0x13, 0x77, 0xb9, 0xe1, 0x9c, 0x73, 0xcf, 0xfc, 0x98, 0x04, 0x4a, 0x6a, 0x26, 0xd9, 0x1b, 0x36,
+	0x17, 0x52, 0x68, 0x41, 0xf2, 0x66, 0x72, 0xf7, 0x21, 0xeb, 0x79, 0x0f, 0x3d, 0xe2, 0x40, 0x6e,
+	0x49, 0xe7, 0x21, 0xd6, 0x32, 0x87, 0x99, 0x46, 0x61, 0x68, 0x06, 0xf7, 0x08, 0x8a, 0x23, 0x1d,
+	0x8e, 0x87, 0xf8, 0x1e, 0xa2, 0xd2, 0x84, 0x40, 0x96, 0xd3, 0x20, 0xd1, 0xc4, 0xcf, 0x6e, 0x03,
+	0x4a, 0x46, 0xa2, 0x16, 0x82, 0x2b, 0x24, 0x35, 0xf8, 0x1d, 0xa0, 0x52, 0xd4, 0x4f, 0x64, 0xc9,
+	0xe8, 0x1e, 0xc3, 0x5e, 0x57, 0x22, 0xd5, 0xf8, 0x24, 0x96, 0x18, 0x20, 0xd7, 0x49, 0xac, 0x03,
+	0x39, 0xcd, 0xf4, 0x7c, 0xbd, 0x3b, 0x1e, 0x4e, 0x3f, 0x01, 0xf2, 0xa3, 0xb8, 0x24, 0xe9, 0x40,
+	0xd5, 0x38, 0xbb, 0x82, 0xbf, 0x32, 0x3f, 0x94, 0x54, 0x33, 0xc1, 0x49, 0xb5, 0xb9, 0x3a, 0xd2,
+	0x46, 0xc7, 0xba, 0xb3, 0xfd, 0xd2, 0xb4, 0x72, 0x7f, 0x91, 0x16, 0x54, 0x86, 0x48, 0xa7, 0x3b,
+	0x24, 0x74, 0xa0, 0xea, 0x2d, 0xa6, 0xbb, 0xb5, 0xe8, 0x82, 0xd3, 0x43, 0xa5, 0xa5, 0xf8, 0xd8,
+	0x21, 0xe4, 0x12, 0xc0, 0xe0, 0xf0, 0x14, 0x4a, 0x3b, 0xeb, 0x39, 0xfc, 0x89, 0x28, 0xd8, 0x1b,
+	0x2f, 0xa0, 0x30, 0x60, 0x4a, 0x47, 0x46, 0x65, 0xdd, 0xd6, 0x60, 0xb3, 0x5f, 0x7a, 0x05, 0xc5,
+	0xb6, 0x9c, 0xcc, 0xd8, 0x32, 0x85, 0xb7, 0x0f, 0xe5, 0xed, 0xdb, 0x46, 0x0e, 0x12, 0xe5, 0xb7,
+	0xb7, 0xf0, 0xc7, 0xa0, 0x6b, 0x28, 0x45, 0xc8, 0xd6, 0x31, 0x56, 0x2d, 0x6e, 0xe0, 0x6f, 0x84,
+	0x2d, 0x31, 0x5b, 0xa2, 0xbb, 0x85, 0xb2, 0x41, 0x97, 0x6e, 0xf9, 0x1d, 0xfc, 0x5b, 0xe1, 0x4b,
+	0xe7, 0x6f, 0x41, 0xc5, 0xa0, 0x1a, 0x50, 0x3e, 0x65, 0xdc, 0x7f, 0xa6, 0x3e, 0x5a, 0x37, 0x88,
+	0xd8, 0xa5, 0xf6, 0xdf, 0xc3, 0xff, 0x08, 0xdf, 0x86, 0x5f, 0x59, 0x1f, 0xc1, 0x10, 0x4c, 0x5d,
+	0xa1, 0x0d, 0x64, 0x05, 0x31, 0x75, 0xc4, 0x23, 0xd4, 0xfb, 0xa8, 0x5f, 0xc4, 0x3c, 0xe4, 0x1a,
+	0x51, 0x0e, 0xc4, 0x24, 0xfe, 0xe8, 0x47, 0x5a, 0x22, 0x0d, 0xac, 0xa2, 0x4e, 0x32, 0xe3, 0x7c,
+	0xfc, 0xff, 0x3e, 0xfb, 0x0a, 0x00, 0x00, 0xff, 0xff, 0x3d, 0xf5, 0x5e, 0xcc, 0xcf, 0x05, 0x00,
+	0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -144,14 +232,24 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ShrikeClient interface {
-	CheckConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
-	Configure(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
-	ResetConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
-	CheckUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	CreateConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	ReadConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	UpdateConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	DestroyConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	CreateUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
-	CreateMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	ReadUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	ListUsers(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	UpdateUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	ArchiveUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	CreateMovement(ctx context.Context, in *CreateMovementRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	ReadMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	ListMovements(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	UpdateMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	ArchiveMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	CreateLandingPage(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	ReadLandingPage(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	ListLandingPages(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	UpdateLandingPage(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	ArchiveLandingPage(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	GetVolunteerLocationStream(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (Shrike_GetVolunteerLocationStreamClient, error)
 }
@@ -164,36 +262,36 @@ func NewShrikeClient(cc *grpc.ClientConn) ShrikeClient {
 	return &shrikeClient{cc}
 }
 
-func (c *shrikeClient) CheckConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+func (c *shrikeClient) CreateConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
 	out := new(StubResponse)
-	err := c.cc.Invoke(ctx, "/shrike.Shrike/CheckConfiguration", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/CreateConfiguration", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *shrikeClient) Configure(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+func (c *shrikeClient) ReadConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
 	out := new(StubResponse)
-	err := c.cc.Invoke(ctx, "/shrike.Shrike/Configure", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/ReadConfiguration", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *shrikeClient) ResetConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+func (c *shrikeClient) UpdateConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
 	out := new(StubResponse)
-	err := c.cc.Invoke(ctx, "/shrike.Shrike/ResetConfiguration", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/UpdateConfiguration", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *shrikeClient) CheckUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+func (c *shrikeClient) DestroyConfiguration(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
 	out := new(StubResponse)
-	err := c.cc.Invoke(ctx, "/shrike.Shrike/CheckUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/DestroyConfiguration", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -209,9 +307,72 @@ func (c *shrikeClient) CreateUser(ctx context.Context, in *StubRequest, opts ...
 	return out, nil
 }
 
-func (c *shrikeClient) CreateMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+func (c *shrikeClient) ReadUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/ReadUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) ListUsers(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/ListUsers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) UpdateUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/UpdateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) ArchiveUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/ArchiveUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) CreateMovement(ctx context.Context, in *CreateMovementRequest, opts ...grpc.CallOption) (*StubResponse, error) {
 	out := new(StubResponse)
 	err := c.cc.Invoke(ctx, "/shrike.Shrike/CreateMovement", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) ReadMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/ReadMovement", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) ListMovements(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/ListMovements", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) UpdateMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/UpdateMovement", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -230,6 +391,33 @@ func (c *shrikeClient) ArchiveMovement(ctx context.Context, in *StubRequest, opt
 func (c *shrikeClient) CreateLandingPage(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
 	out := new(StubResponse)
 	err := c.cc.Invoke(ctx, "/shrike.Shrike/CreateLandingPage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) ReadLandingPage(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/ReadLandingPage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) ListLandingPages(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/ListLandingPages", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shrikeClient) UpdateLandingPage(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
+	out := new(StubResponse)
+	err := c.cc.Invoke(ctx, "/shrike.Shrike/UpdateLandingPage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -279,14 +467,24 @@ func (x *shrikeGetVolunteerLocationStreamClient) Recv() (*StubResponse, error) {
 
 // ShrikeServer is the server API for Shrike service.
 type ShrikeServer interface {
-	CheckConfiguration(context.Context, *StubRequest) (*StubResponse, error)
-	Configure(context.Context, *StubRequest) (*StubResponse, error)
-	ResetConfiguration(context.Context, *StubRequest) (*StubResponse, error)
-	CheckUser(context.Context, *StubRequest) (*StubResponse, error)
+	CreateConfiguration(context.Context, *StubRequest) (*StubResponse, error)
+	ReadConfiguration(context.Context, *StubRequest) (*StubResponse, error)
+	UpdateConfiguration(context.Context, *StubRequest) (*StubResponse, error)
+	DestroyConfiguration(context.Context, *StubRequest) (*StubResponse, error)
 	CreateUser(context.Context, *StubRequest) (*StubResponse, error)
-	CreateMovement(context.Context, *StubRequest) (*StubResponse, error)
+	ReadUser(context.Context, *StubRequest) (*StubResponse, error)
+	ListUsers(context.Context, *StubRequest) (*StubResponse, error)
+	UpdateUser(context.Context, *StubRequest) (*StubResponse, error)
+	ArchiveUser(context.Context, *StubRequest) (*StubResponse, error)
+	CreateMovement(context.Context, *CreateMovementRequest) (*StubResponse, error)
+	ReadMovement(context.Context, *StubRequest) (*StubResponse, error)
+	ListMovements(context.Context, *StubRequest) (*StubResponse, error)
+	UpdateMovement(context.Context, *StubRequest) (*StubResponse, error)
 	ArchiveMovement(context.Context, *StubRequest) (*StubResponse, error)
 	CreateLandingPage(context.Context, *StubRequest) (*StubResponse, error)
+	ReadLandingPage(context.Context, *StubRequest) (*StubResponse, error)
+	ListLandingPages(context.Context, *StubRequest) (*StubResponse, error)
+	UpdateLandingPage(context.Context, *StubRequest) (*StubResponse, error)
 	ArchiveLandingPage(context.Context, *StubRequest) (*StubResponse, error)
 	GetVolunteerLocationStream(*StubRequest, Shrike_GetVolunteerLocationStreamServer) error
 }
@@ -295,29 +493,59 @@ type ShrikeServer interface {
 type UnimplementedShrikeServer struct {
 }
 
-func (*UnimplementedShrikeServer) CheckConfiguration(ctx context.Context, req *StubRequest) (*StubResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckConfiguration not implemented")
+func (*UnimplementedShrikeServer) CreateConfiguration(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateConfiguration not implemented")
 }
-func (*UnimplementedShrikeServer) Configure(ctx context.Context, req *StubRequest) (*StubResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Configure not implemented")
+func (*UnimplementedShrikeServer) ReadConfiguration(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadConfiguration not implemented")
 }
-func (*UnimplementedShrikeServer) ResetConfiguration(ctx context.Context, req *StubRequest) (*StubResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ResetConfiguration not implemented")
+func (*UnimplementedShrikeServer) UpdateConfiguration(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateConfiguration not implemented")
 }
-func (*UnimplementedShrikeServer) CheckUser(ctx context.Context, req *StubRequest) (*StubResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckUser not implemented")
+func (*UnimplementedShrikeServer) DestroyConfiguration(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DestroyConfiguration not implemented")
 }
 func (*UnimplementedShrikeServer) CreateUser(ctx context.Context, req *StubRequest) (*StubResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (*UnimplementedShrikeServer) CreateMovement(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+func (*UnimplementedShrikeServer) ReadUser(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadUser not implemented")
+}
+func (*UnimplementedShrikeServer) ListUsers(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (*UnimplementedShrikeServer) UpdateUser(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (*UnimplementedShrikeServer) ArchiveUser(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ArchiveUser not implemented")
+}
+func (*UnimplementedShrikeServer) CreateMovement(ctx context.Context, req *CreateMovementRequest) (*StubResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMovement not implemented")
+}
+func (*UnimplementedShrikeServer) ReadMovement(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadMovement not implemented")
+}
+func (*UnimplementedShrikeServer) ListMovements(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMovements not implemented")
+}
+func (*UnimplementedShrikeServer) UpdateMovement(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMovement not implemented")
 }
 func (*UnimplementedShrikeServer) ArchiveMovement(ctx context.Context, req *StubRequest) (*StubResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ArchiveMovement not implemented")
 }
 func (*UnimplementedShrikeServer) CreateLandingPage(ctx context.Context, req *StubRequest) (*StubResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateLandingPage not implemented")
+}
+func (*UnimplementedShrikeServer) ReadLandingPage(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadLandingPage not implemented")
+}
+func (*UnimplementedShrikeServer) ListLandingPages(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListLandingPages not implemented")
+}
+func (*UnimplementedShrikeServer) UpdateLandingPage(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateLandingPage not implemented")
 }
 func (*UnimplementedShrikeServer) ArchiveLandingPage(ctx context.Context, req *StubRequest) (*StubResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ArchiveLandingPage not implemented")
@@ -330,74 +558,74 @@ func RegisterShrikeServer(s *grpc.Server, srv ShrikeServer) {
 	s.RegisterService(&_Shrike_serviceDesc, srv)
 }
 
-func _Shrike_CheckConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Shrike_CreateConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StubRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShrikeServer).CheckConfiguration(ctx, in)
+		return srv.(ShrikeServer).CreateConfiguration(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shrike.Shrike/CheckConfiguration",
+		FullMethod: "/shrike.Shrike/CreateConfiguration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShrikeServer).CheckConfiguration(ctx, req.(*StubRequest))
+		return srv.(ShrikeServer).CreateConfiguration(ctx, req.(*StubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Shrike_Configure_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Shrike_ReadConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StubRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShrikeServer).Configure(ctx, in)
+		return srv.(ShrikeServer).ReadConfiguration(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shrike.Shrike/Configure",
+		FullMethod: "/shrike.Shrike/ReadConfiguration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShrikeServer).Configure(ctx, req.(*StubRequest))
+		return srv.(ShrikeServer).ReadConfiguration(ctx, req.(*StubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Shrike_ResetConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Shrike_UpdateConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StubRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShrikeServer).ResetConfiguration(ctx, in)
+		return srv.(ShrikeServer).UpdateConfiguration(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shrike.Shrike/ResetConfiguration",
+		FullMethod: "/shrike.Shrike/UpdateConfiguration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShrikeServer).ResetConfiguration(ctx, req.(*StubRequest))
+		return srv.(ShrikeServer).UpdateConfiguration(ctx, req.(*StubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Shrike_CheckUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Shrike_DestroyConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StubRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShrikeServer).CheckUser(ctx, in)
+		return srv.(ShrikeServer).DestroyConfiguration(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shrike.Shrike/CheckUser",
+		FullMethod: "/shrike.Shrike/DestroyConfiguration",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShrikeServer).CheckUser(ctx, req.(*StubRequest))
+		return srv.(ShrikeServer).DestroyConfiguration(ctx, req.(*StubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -420,8 +648,80 @@ func _Shrike_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Shrike_CreateMovement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Shrike_ReadUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).ReadUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/ReadUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).ReadUser(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).ListUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/ListUsers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).ListUsers(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/UpdateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).UpdateUser(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_ArchiveUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).ArchiveUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/ArchiveUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).ArchiveUser(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_CreateMovement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMovementRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -433,7 +733,61 @@ func _Shrike_CreateMovement_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: "/shrike.Shrike/CreateMovement",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShrikeServer).CreateMovement(ctx, req.(*StubRequest))
+		return srv.(ShrikeServer).CreateMovement(ctx, req.(*CreateMovementRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_ReadMovement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).ReadMovement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/ReadMovement",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).ReadMovement(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_ListMovements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).ListMovements(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/ListMovements",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).ListMovements(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_UpdateMovement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).UpdateMovement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/UpdateMovement",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).UpdateMovement(ctx, req.(*StubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -470,6 +824,60 @@ func _Shrike_CreateLandingPage_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ShrikeServer).CreateLandingPage(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_ReadLandingPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).ReadLandingPage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/ReadLandingPage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).ReadLandingPage(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_ListLandingPages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).ListLandingPages(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/ListLandingPages",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).ListLandingPages(ctx, req.(*StubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shrike_UpdateLandingPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShrikeServer).UpdateLandingPage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shrike.Shrike/UpdateLandingPage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShrikeServer).UpdateLandingPage(ctx, req.(*StubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -518,28 +926,56 @@ var _Shrike_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*ShrikeServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CheckConfiguration",
-			Handler:    _Shrike_CheckConfiguration_Handler,
+			MethodName: "CreateConfiguration",
+			Handler:    _Shrike_CreateConfiguration_Handler,
 		},
 		{
-			MethodName: "Configure",
-			Handler:    _Shrike_Configure_Handler,
+			MethodName: "ReadConfiguration",
+			Handler:    _Shrike_ReadConfiguration_Handler,
 		},
 		{
-			MethodName: "ResetConfiguration",
-			Handler:    _Shrike_ResetConfiguration_Handler,
+			MethodName: "UpdateConfiguration",
+			Handler:    _Shrike_UpdateConfiguration_Handler,
 		},
 		{
-			MethodName: "CheckUser",
-			Handler:    _Shrike_CheckUser_Handler,
+			MethodName: "DestroyConfiguration",
+			Handler:    _Shrike_DestroyConfiguration_Handler,
 		},
 		{
 			MethodName: "CreateUser",
 			Handler:    _Shrike_CreateUser_Handler,
 		},
 		{
+			MethodName: "ReadUser",
+			Handler:    _Shrike_ReadUser_Handler,
+		},
+		{
+			MethodName: "ListUsers",
+			Handler:    _Shrike_ListUsers_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _Shrike_UpdateUser_Handler,
+		},
+		{
+			MethodName: "ArchiveUser",
+			Handler:    _Shrike_ArchiveUser_Handler,
+		},
+		{
 			MethodName: "CreateMovement",
 			Handler:    _Shrike_CreateMovement_Handler,
+		},
+		{
+			MethodName: "ReadMovement",
+			Handler:    _Shrike_ReadMovement_Handler,
+		},
+		{
+			MethodName: "ListMovements",
+			Handler:    _Shrike_ListMovements_Handler,
+		},
+		{
+			MethodName: "UpdateMovement",
+			Handler:    _Shrike_UpdateMovement_Handler,
 		},
 		{
 			MethodName: "ArchiveMovement",
@@ -548,6 +984,18 @@ var _Shrike_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateLandingPage",
 			Handler:    _Shrike_CreateLandingPage_Handler,
+		},
+		{
+			MethodName: "ReadLandingPage",
+			Handler:    _Shrike_ReadLandingPage_Handler,
+		},
+		{
+			MethodName: "ListLandingPages",
+			Handler:    _Shrike_ListLandingPages_Handler,
+		},
+		{
+			MethodName: "UpdateLandingPage",
+			Handler:    _Shrike_UpdateLandingPage_Handler,
 		},
 		{
 			MethodName: "ArchiveLandingPage",

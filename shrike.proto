@@ -3,29 +3,46 @@ package shrike;
 
 // Shrike is a web service for coordinating political campaigns, volunteer efforts, and fund raising.
 service Shrike {
-    rpc CheckConfiguration (StubRequest) returns (StubResponse) {}
-    rpc Configure (StubRequest) returns (StubResponse) {}
-    rpc ResetConfiguration (StubRequest) returns (StubResponse) {}
+    rpc CreateConfiguration (StubRequest) returns (StubResponse) {}
+    rpc ReadConfiguration (StubRequest) returns (StubResponse) {}
+    rpc UpdateConfiguration (StubRequest) returns (StubResponse) {}
+    rpc DestroyConfiguration (StubRequest) returns (StubResponse) {}
 
-    rpc CheckUser (StubRequest) returns (StubResponse) {}
     rpc CreateUser(StubRequest) returns (StubResponse) {}
+    rpc ReadUser (StubRequest) returns (StubResponse) {}
+    rpc ListUsers (StubRequest) returns (StubResponse) {}
+    rpc UpdateUser(StubRequest) returns (StubResponse) {}
+    rpc ArchiveUser(StubRequest) returns (StubResponse) {}
 
-    rpc CreateMovement (StubRequest) returns (StubResponse) {}
+    rpc CreateMovement (CreateMovementRequest) returns (StubResponse) {}
+    rpc ReadMovement (StubRequest) returns (StubResponse) {}
+    rpc ListMovements (StubRequest) returns (StubResponse) {}
+    rpc UpdateMovement(StubRequest) returns (StubResponse) {}
     rpc ArchiveMovement (StubRequest) returns (StubResponse) {}
 
     rpc CreateLandingPage (StubRequest) returns (StubResponse) {}
+    rpc ReadLandingPage (StubRequest) returns (StubResponse) {}
+    rpc ListLandingPages(StubRequest) returns (StubResponse) {}
+    rpc UpdateLandingPage(StubRequest) returns (StubResponse) {}
     rpc ArchiveLandingPage (StubRequest) returns (StubResponse) {}
-    rpc GetVolunteerLocationStream (StubRequest) returns (stream StubResponse) {}
 
+    rpc GetVolunteerLocationStream (StubRequest) returns (stream StubResponse) {}
   }
-  
-    // Simple request message for stubbed service calls..
-    message StubRequest {
-      string name = 1;
-    }
-    
-    // Simple response message for stubbed service calls..
-    message StubResponse{
-      string message = 1;
-    }
-    
+
+message UUID {
+  string value = 1;
+}
+
+// Simple request message for stubbed service calls..
+message StubRequest {
+  string name = 1;
+}
+
+// Simple response message for stubbed service calls..
+message StubResponse{
+  string message = 1;
+}
+
+message CreateMovementRequest{
+  string title = 1;
+}
