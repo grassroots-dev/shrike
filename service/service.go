@@ -24,7 +24,7 @@ func NewService(db string, cache string, storage string) *Service {
 
 // CheckConfiguration will check the current configuration state.
 func (s *Service) CheckConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.RunPGExample()
+	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
 	}
@@ -34,17 +34,27 @@ func (s *Service) CheckConfiguration(ctx context.Context, in *pb.StubRequest) (*
 
 // Configure will configure a new running instance of the shrike service.
 func (s *Service) Configure(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.RunPGExample()
+	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to set configuration ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: "Response for Configure"}, nil
+	return &pb.StubResponse{Message: "Configuration initialized."}, nil
 }
 
-// CheckUser will configure a new running instance of the shrike service.
+// ResetConfiguration will reset the service to factory settings.
+func (s *Service) ResetConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
+	err := store.ResetDB()
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "persistent store failed to reset configuration ->"+err.Error())
+	}
+
+	return &pb.StubResponse{Message: "Configuration destroyed."}, nil
+}
+
+// CheckUser will return the currently logged in user..
 func (s *Service) CheckUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.RunPGExample()
+	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "failed to retrieve id for created Account -> "+err.Error())
 	}
@@ -52,9 +62,9 @@ func (s *Service) CheckUser(ctx context.Context, in *pb.StubRequest) (*pb.StubRe
 	return &pb.StubResponse{Message: "Response for CheckUser"}, nil
 }
 
-// CreateUser will configure a new running instance of the shrike service.
+// CreateUser will create a new user and associated resources.
 func (s *Service) CreateUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.RunPGExample()
+	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to create user -> "+err.Error())
 	}
@@ -64,7 +74,7 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.StubRequest) (*pb.StubR
 
 // CreateMovement will create a new movement and all dependencies.
 func (s *Service) CreateMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.RunPGExample()
+	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to create movement ->  "+err.Error())
 	}
@@ -74,7 +84,7 @@ func (s *Service) CreateMovement(ctx context.Context, in *pb.StubRequest) (*pb.S
 
 // ArchiveMovement will archive an active movement.
 func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.RunPGExample()
+	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to archive movement ->  "+err.Error())
 	}
@@ -84,7 +94,7 @@ func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.
 
 // CreateLandingPage will create a new landing page belonging to a movement and all dependencies.
 func (s *Service) CreateLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.RunPGExample()
+	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to create landing page ->  "+err.Error())
 	}
@@ -94,7 +104,7 @@ func (s *Service) CreateLandingPage(ctx context.Context, in *pb.StubRequest) (*p
 
 // ArchiveLandingPage will archive an active landing page.
 func (s *Service) ArchiveLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.RunPGExample()
+	err := store.InitializeDB()
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to archive landing page -> "+err.Error())
 	}
@@ -102,7 +112,7 @@ func (s *Service) ArchiveLandingPage(ctx context.Context, in *pb.StubRequest) (*
 	return &pb.StubResponse{Message: "Response for ArchiveLandingPage"}, nil
 }
 
-// GetVolunteerLocationStream will archive an active landing page.
+// GetVolunteerLocationStream will return a stream of Volunteer GPS coordinates.
 func (s *Service) GetVolunteerLocationStream(in *pb.StubRequest, stream pb.Shrike_GetVolunteerLocationStreamServer) error {
 	for {
 		time.Sleep(1 * time.Second)

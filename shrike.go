@@ -38,7 +38,7 @@ func main() {
 	var cfg Config
 	flag.StringVar(&cfg.GRPCPort, "grpc-port", ":50051", "gRPC port to bind")
 	flag.StringVar(&cfg.HTTPPort, "http-port", "8080", "HTTP port to bind")
-	flag.StringVar(&cfg.DatastoreDBHost, "db-host", "db", "Database host")
+	flag.StringVar(&cfg.DatastoreDBHost, "db-host", "test", "Database host")
 	flag.StringVar(&cfg.DatastoreDBUser, "db-user", "tern", "Database user")
 	flag.StringVar(&cfg.DatastoreDBPassword, "db-password", "tern", "Database password")
 	flag.StringVar(&cfg.DatastoreDBSchema, "db-schema", "tern", "Database schema")

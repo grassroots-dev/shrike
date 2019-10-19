@@ -35,3 +35,9 @@ deps:
 	echo "Installing dependnencies.."
 protogen:
 	./scripts/protogen.sh
+start:
+	./scripts/start-docker.sh
+startdb:
+	docker-compose up -d db
+dev: protogen startdb
+	nodemon go run shrike.go

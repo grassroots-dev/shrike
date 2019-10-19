@@ -3,10 +3,9 @@ package shrike;
 
 // Shrike is a web service for coordinating political campaigns, volunteer efforts, and fund raising.
 service Shrike {
-    // Checks for the current configuration state of service.
     rpc CheckConfiguration (StubRequest) returns (StubResponse) {}
-    // Configures a fresh instance of the shrike service when booting without a configuration.
     rpc Configure (StubRequest) returns (StubResponse) {}
+    rpc ResetConfiguration (StubRequest) returns (StubResponse) {}
 
     rpc CheckUser (StubRequest) returns (StubResponse) {}
     rpc CreateUser(StubRequest) returns (StubResponse) {}
