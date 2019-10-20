@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	pb "github.com/grassroots-dev/shrike/api"
@@ -23,11 +22,11 @@ func NewService(db string, cache string, storage string) *Service {
 	return &Service{DB: "hello db", Cache: "hello cache", Storage: "hello storage"}
 }
 
-// CreateConfiguration will check the current configuration state.
+// CreateConfiguration will create the current configuration state.
 func (s *Service) CreateConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to create configuration ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CreateConfiguration"}, nil
@@ -47,7 +46,7 @@ func (s *Service) ReadConfiguration(ctx context.Context, in *pb.StubRequest) (*p
 func (s *Service) UpdateConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to update configuration ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for UpdateConfiguration"}, nil
@@ -57,27 +56,27 @@ func (s *Service) UpdateConfiguration(ctx context.Context, in *pb.StubRequest) (
 func (s *Service) DestroyConfiguration(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.DestroyDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check configuration ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to destroy configuration ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Destroyed configuration."}, nil
 }
 
-// CreateUser will check the current User state.
+// CreateUser will create the current User state.
 func (s *Service) CreateUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to create User ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CreateUser"}, nil
 }
 
-// ReadUser will check the current User state.
+// ReadUser will read the current User state.
 func (s *Service) ReadUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to read User ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ReadUser"}, nil
@@ -87,67 +86,70 @@ func (s *Service) ReadUser(ctx context.Context, in *pb.StubRequest) (*pb.StubRes
 func (s *Service) ListUsers(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to list User ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ReadUser"}, nil
 }
 
-// UpdateUser will check the current User state.
+// UpdateUser will update the current User state.
 func (s *Service) UpdateUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to update User ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for UpdateUser"}, nil
 }
 
-// ArchiveUser will check the current User state.
+// ArchiveUser will archive the current User state.
 func (s *Service) ArchiveUser(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.DestroyDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check User ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to archive User ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ArchiveUser"}, nil
 }
 
-// CreateMovement will check the current Movement state.
-func (s *Service) CreateMovement(ctx context.Context, in *pb.CreateMovementRequest) (*pb.StubResponse, error) {
-	newID, err := store.CreateMovement(in.Title)
+// CreateMovement will create the current Movement state.
+func (s *Service) CreateMovement(ctx context.Context, in *pb.CreateMovementRequest) (*pb.CreateMovementResponse, error) {
+	newMovement, err := store.CreateMovement(in.Title, in.User, in.Description, in.URI, in.FeaturedImage)
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to create Movement ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: fmt.Sprintf("Succsefully created: %v", *newID)}, nil
+	return &pb.CreateMovementResponse{Item: &pb.Movement{ID: newMovement.ID.String(), Title: newMovement.Title, Description: newMovement.Description, URI: newMovement.URI, FeaturedImage: newMovement.FeaturedImage}}, nil
 }
 
-// ReadMovement will check the current Movement state.
-func (s *Service) ReadMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.InitializeDB()
+// ReadMovement will read the current Movement state.
+func (s *Service) ReadMovement(ctx context.Context, in *pb.ReadMovementRequest) (*pb.ReadMovementResponse, error) {
+	movement, err := store.GetMovement(in.ID)
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to read Movement ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: "Response for ReadMovement"}, nil
+	return &pb.ReadMovementResponse{Item: &pb.Movement{ID: movement.ID.String(), Title: movement.Title, Description: movement.Description, URI: movement.URI, FeaturedImage: movement.FeaturedImage}}, nil
 }
 
 // ListMovements will check the current Movement state.
-func (s *Service) ListMovements(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.InitializeDB()
+func (s *Service) ListMovements(ctx context.Context, in *pb.ListMovementsRequest) (*pb.ListMovementsResponse, error) {
+	movements, err := store.ListMovements()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to list Movements ->"+err.Error())
 	}
-
-	return &pb.StubResponse{Message: "Response for ReadMovement"}, nil
+	list := []*pb.Movement{}
+	for _, movement := range *movements {
+		list = append(list, &pb.Movement{ID: movement.ID.String(), Title: movement.Title, Description: movement.Description, URI: movement.URI, FeaturedImage: movement.FeaturedImage})
+	}
+	return &pb.ListMovementsResponse{Data: list}, nil
 }
 
 // UpdateMovement will check the current Movement state.
 func (s *Service) UpdateMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to update Movement ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for UpdateMovement"}, nil
@@ -157,7 +159,7 @@ func (s *Service) UpdateMovement(ctx context.Context, in *pb.StubRequest) (*pb.S
 func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.DestroyDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check Movement ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to archive Movement ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ArchiveMovement"}, nil
@@ -167,7 +169,7 @@ func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.
 func (s *Service) CreateLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to create LandingPage ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for CreateLandingPage"}, nil
@@ -177,7 +179,7 @@ func (s *Service) CreateLandingPage(ctx context.Context, in *pb.StubRequest) (*p
 func (s *Service) ReadLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to read LandingPage ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ReadLandingPage"}, nil
@@ -187,7 +189,7 @@ func (s *Service) ReadLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.
 func (s *Service) ListLandingPages(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to list LandingPage ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ReadLandingPage"}, nil
@@ -197,7 +199,7 @@ func (s *Service) ListLandingPages(ctx context.Context, in *pb.StubRequest) (*pb
 func (s *Service) UpdateLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.InitializeDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to update LandingPage ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for UpdateLandingPage"}, nil
@@ -207,7 +209,7 @@ func (s *Service) UpdateLandingPage(ctx context.Context, in *pb.StubRequest) (*p
 func (s *Service) ArchiveLandingPage(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
 	err := store.DestroyDB()
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to check LandingPage ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to archive LandingPage ->"+err.Error())
 	}
 
 	return &pb.StubResponse{Message: "Response for ArchiveLandingPage"}, nil

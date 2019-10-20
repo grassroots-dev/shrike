@@ -14,9 +14,9 @@ service Shrike {
     rpc UpdateUser(StubRequest) returns (StubResponse) {}
     rpc ArchiveUser(StubRequest) returns (StubResponse) {}
 
-    rpc CreateMovement (CreateMovementRequest) returns (StubResponse) {}
-    rpc ReadMovement (StubRequest) returns (StubResponse) {}
-    rpc ListMovements (StubRequest) returns (StubResponse) {}
+    rpc CreateMovement (CreateMovementRequest) returns (CreateMovementResponse) {}
+    rpc ReadMovement (ReadMovementRequest) returns (ReadMovementResponse) {}
+    rpc ListMovements (ListMovementsRequest) returns (ListMovementsResponse) {}
     rpc UpdateMovement(StubRequest) returns (StubResponse) {}
     rpc ArchiveMovement (StubRequest) returns (StubResponse) {}
 
@@ -45,4 +45,36 @@ message StubResponse{
 
 message CreateMovementRequest{
   string title = 1;
+  string description = 2;
+  string URI = 3;
+  string featuredImage = 4;
+  string user = 5;
+}
+
+message ReadMovementRequest{
+  string ID = 1;
+}
+
+message ListMovementsRequest{
+  int64 limit = 1;
+}
+
+message Movement{
+  string ID = 1;
+  string title = 2;
+  string description = 3;
+  string URI = 4;
+  string featuredImage = 5;
+}
+
+message CreateMovementResponse{
+  Movement item = 1;
+}
+
+message ReadMovementResponse{
+  Movement item = 1;
+}
+
+message ListMovementsResponse{
+  repeated Movement data = 1;
 }

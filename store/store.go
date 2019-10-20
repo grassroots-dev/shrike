@@ -8,6 +8,14 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+var pgOptions = &pg.Options{
+	User:       "tern",
+	Password:   "tern",
+	Database:   "tern",
+	MaxRetries: 10,
+	Addr:       "localhost:5432",
+}
+
 // Configuration is a struct for the Configuration model.
 type Configuration struct {
 	ID     uuid.UUID `sql:",type:uuid"`
@@ -31,10 +39,13 @@ func (u User) String() string {
 
 // Movement is a core model representing an organization.
 type Movement struct {
-	ID        uuid.UUID `sql:",type:uuid"`
-	Title     string
-	CreatorID uuid.UUID `sql:",type:uuid"`
-	Creator   *User
+	ID            uuid.UUID `sql:",type:uuid"`
+	Title         string
+	Description   string
+	URI           string
+	FeaturedImage string
+	CreatorID     uuid.UUID `sql:",type:uuid"`
+	Creator       *User
 }
 
 func (s Movement) String() string {
@@ -69,13 +80,7 @@ func (s Story) String() string {
 
 // InitializeDB runs the pg ORM example.
 func InitializeDB() error {
-	db := pg.Connect(&pg.Options{
-		User:       "tern",
-		Password:   "tern",
-		Database:   "tern",
-		MaxRetries: 10,
-		Addr:       "localhost:5432",
-	})
+	db := pg.Connect(pgOptions)
 	defer db.Close()
 	err := createSchema(db)
 	if err != nil {
@@ -100,13 +105,7 @@ func InitializeDB() error {
 
 // DestroyDB runs the pg ORM example.
 func DestroyDB() error {
-	db := pg.Connect(&pg.Options{
-		User:       "tern",
-		Password:   "tern",
-		Database:   "tern",
-		MaxRetries: 10,
-		Addr:       "localhost:5432",
-	})
+	db := pg.Connect(pgOptions)
 	defer db.Close()
 	err := deleteSchema(db)
 	if err != nil {
@@ -116,50 +115,60 @@ func DestroyDB() error {
 }
 
 // CreateMovement creates a movement.
-func CreateMovement(title string) (*uuid.UUID, error) {
-	db := pg.Connect(&pg.Options{
-		User:       "tern",
-		Password:   "tern",
-		Database:   "tern",
-		MaxRetries: 10,
-		Addr:       "localhost:5432",
-	})
+func CreateMovement(title string, user string, description string, uri string, featuredImage string) (*Movement, error) {
+	db := pg.Connect(pgOptions)
 	defer db.Close()
 	newID, err := uuid.NewV4()
 	if err != nil {
 		return nil, err
 	}
-	user, err := uuid.FromString("b581056b-b295-477a-8700-9dec232c3641")
+	creator, err := uuid.FromString(user)
 	if err != nil {
 		return nil, err
 	}
 	newMovement := &Movement{
-		ID:        newID,
-		Title:     title,
-		CreatorID: user,
+		ID:            newID,
+		Title:         title,
+		Description:   description,
+		URI:           uri,
+		FeaturedImage: featuredImage,
+		CreatorID:     creator,
 	}
 	err = db.Insert(newMovement)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return &newID, nil
+	return newMovement, nil
 }
 
-// DestroyMovement destroys a movement.
-func DestroyMovement() error {
-	db := pg.Connect(&pg.Options{
-		User:       "tern",
-		Password:   "tern",
-		Database:   "tern",
-		MaxRetries: 10,
-		Addr:       "localhost:5432",
-	})
+// GetMovement returns a single movement by primary key.
+func GetMovement(id string) (*Movement, error) {
+	db := pg.Connect(pgOptions)
 	defer db.Close()
-	err := deleteSchema(db)
+
+	movementID, err := uuid.FromString(id)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	// Select user by primary key.
+	movement := &Movement{ID: movementID}
+	err = db.Select(movement)
+	if err != nil {
+		return nil, err
+	}
+	return movement, nil
+}
+
+// ListMovements returns a list of Movements.
+func ListMovements() (*[]Movement, error) {
+	db := pg.Connect(pgOptions)
+	defer db.Close()
+	var movements []Movement
+	err := db.Model(&movements).Select()
+	if err != nil {
+		return nil, err
+	}
+	return &movements, nil
 }
 
 func createSchema(db *pg.DB) error {

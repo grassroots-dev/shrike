@@ -145,6 +145,10 @@ func (m *StubResponse) GetMessage() string {
 
 type CreateMovementRequest struct {
 	Title                string   `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	Description          string   `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	URI                  string   `protobuf:"bytes,3,opt,name=URI,proto3" json:"URI,omitempty"`
+	FeaturedImage        string   `protobuf:"bytes,4,opt,name=featuredImage,proto3" json:"featuredImage,omitempty"`
+	User                 string   `protobuf:"bytes,5,opt,name=user,proto3" json:"user,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -182,41 +186,353 @@ func (m *CreateMovementRequest) GetTitle() string {
 	return ""
 }
 
+func (m *CreateMovementRequest) GetDescription() string {
+	if m != nil {
+		return m.Description
+	}
+	return ""
+}
+
+func (m *CreateMovementRequest) GetURI() string {
+	if m != nil {
+		return m.URI
+	}
+	return ""
+}
+
+func (m *CreateMovementRequest) GetFeaturedImage() string {
+	if m != nil {
+		return m.FeaturedImage
+	}
+	return ""
+}
+
+func (m *CreateMovementRequest) GetUser() string {
+	if m != nil {
+		return m.User
+	}
+	return ""
+}
+
+type ReadMovementRequest struct {
+	ID                   string   `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ReadMovementRequest) Reset()         { *m = ReadMovementRequest{} }
+func (m *ReadMovementRequest) String() string { return proto.CompactTextString(m) }
+func (*ReadMovementRequest) ProtoMessage()    {}
+func (*ReadMovementRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2311c9d8f30f83c3, []int{4}
+}
+
+func (m *ReadMovementRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReadMovementRequest.Unmarshal(m, b)
+}
+func (m *ReadMovementRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReadMovementRequest.Marshal(b, m, deterministic)
+}
+func (m *ReadMovementRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReadMovementRequest.Merge(m, src)
+}
+func (m *ReadMovementRequest) XXX_Size() int {
+	return xxx_messageInfo_ReadMovementRequest.Size(m)
+}
+func (m *ReadMovementRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReadMovementRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReadMovementRequest proto.InternalMessageInfo
+
+func (m *ReadMovementRequest) GetID() string {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+type ListMovementsRequest struct {
+	Limit                int64    `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListMovementsRequest) Reset()         { *m = ListMovementsRequest{} }
+func (m *ListMovementsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListMovementsRequest) ProtoMessage()    {}
+func (*ListMovementsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2311c9d8f30f83c3, []int{5}
+}
+
+func (m *ListMovementsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListMovementsRequest.Unmarshal(m, b)
+}
+func (m *ListMovementsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListMovementsRequest.Marshal(b, m, deterministic)
+}
+func (m *ListMovementsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListMovementsRequest.Merge(m, src)
+}
+func (m *ListMovementsRequest) XXX_Size() int {
+	return xxx_messageInfo_ListMovementsRequest.Size(m)
+}
+func (m *ListMovementsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListMovementsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListMovementsRequest proto.InternalMessageInfo
+
+func (m *ListMovementsRequest) GetLimit() int64 {
+	if m != nil {
+		return m.Limit
+	}
+	return 0
+}
+
+type Movement struct {
+	ID                   string   `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Title                string   `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Description          string   `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	URI                  string   `protobuf:"bytes,4,opt,name=URI,proto3" json:"URI,omitempty"`
+	FeaturedImage        string   `protobuf:"bytes,5,opt,name=featuredImage,proto3" json:"featuredImage,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Movement) Reset()         { *m = Movement{} }
+func (m *Movement) String() string { return proto.CompactTextString(m) }
+func (*Movement) ProtoMessage()    {}
+func (*Movement) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2311c9d8f30f83c3, []int{6}
+}
+
+func (m *Movement) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Movement.Unmarshal(m, b)
+}
+func (m *Movement) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Movement.Marshal(b, m, deterministic)
+}
+func (m *Movement) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Movement.Merge(m, src)
+}
+func (m *Movement) XXX_Size() int {
+	return xxx_messageInfo_Movement.Size(m)
+}
+func (m *Movement) XXX_DiscardUnknown() {
+	xxx_messageInfo_Movement.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Movement proto.InternalMessageInfo
+
+func (m *Movement) GetID() string {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+func (m *Movement) GetTitle() string {
+	if m != nil {
+		return m.Title
+	}
+	return ""
+}
+
+func (m *Movement) GetDescription() string {
+	if m != nil {
+		return m.Description
+	}
+	return ""
+}
+
+func (m *Movement) GetURI() string {
+	if m != nil {
+		return m.URI
+	}
+	return ""
+}
+
+func (m *Movement) GetFeaturedImage() string {
+	if m != nil {
+		return m.FeaturedImage
+	}
+	return ""
+}
+
+type CreateMovementResponse struct {
+	Item                 *Movement `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *CreateMovementResponse) Reset()         { *m = CreateMovementResponse{} }
+func (m *CreateMovementResponse) String() string { return proto.CompactTextString(m) }
+func (*CreateMovementResponse) ProtoMessage()    {}
+func (*CreateMovementResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2311c9d8f30f83c3, []int{7}
+}
+
+func (m *CreateMovementResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateMovementResponse.Unmarshal(m, b)
+}
+func (m *CreateMovementResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateMovementResponse.Marshal(b, m, deterministic)
+}
+func (m *CreateMovementResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateMovementResponse.Merge(m, src)
+}
+func (m *CreateMovementResponse) XXX_Size() int {
+	return xxx_messageInfo_CreateMovementResponse.Size(m)
+}
+func (m *CreateMovementResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateMovementResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateMovementResponse proto.InternalMessageInfo
+
+func (m *CreateMovementResponse) GetItem() *Movement {
+	if m != nil {
+		return m.Item
+	}
+	return nil
+}
+
+type ReadMovementResponse struct {
+	Item                 *Movement `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *ReadMovementResponse) Reset()         { *m = ReadMovementResponse{} }
+func (m *ReadMovementResponse) String() string { return proto.CompactTextString(m) }
+func (*ReadMovementResponse) ProtoMessage()    {}
+func (*ReadMovementResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2311c9d8f30f83c3, []int{8}
+}
+
+func (m *ReadMovementResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReadMovementResponse.Unmarshal(m, b)
+}
+func (m *ReadMovementResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReadMovementResponse.Marshal(b, m, deterministic)
+}
+func (m *ReadMovementResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReadMovementResponse.Merge(m, src)
+}
+func (m *ReadMovementResponse) XXX_Size() int {
+	return xxx_messageInfo_ReadMovementResponse.Size(m)
+}
+func (m *ReadMovementResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReadMovementResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReadMovementResponse proto.InternalMessageInfo
+
+func (m *ReadMovementResponse) GetItem() *Movement {
+	if m != nil {
+		return m.Item
+	}
+	return nil
+}
+
+type ListMovementsResponse struct {
+	Data                 []*Movement `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *ListMovementsResponse) Reset()         { *m = ListMovementsResponse{} }
+func (m *ListMovementsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListMovementsResponse) ProtoMessage()    {}
+func (*ListMovementsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2311c9d8f30f83c3, []int{9}
+}
+
+func (m *ListMovementsResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListMovementsResponse.Unmarshal(m, b)
+}
+func (m *ListMovementsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListMovementsResponse.Marshal(b, m, deterministic)
+}
+func (m *ListMovementsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListMovementsResponse.Merge(m, src)
+}
+func (m *ListMovementsResponse) XXX_Size() int {
+	return xxx_messageInfo_ListMovementsResponse.Size(m)
+}
+func (m *ListMovementsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListMovementsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListMovementsResponse proto.InternalMessageInfo
+
+func (m *ListMovementsResponse) GetData() []*Movement {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*UUID)(nil), "shrike.UUID")
 	proto.RegisterType((*StubRequest)(nil), "shrike.StubRequest")
 	proto.RegisterType((*StubResponse)(nil), "shrike.StubResponse")
 	proto.RegisterType((*CreateMovementRequest)(nil), "shrike.CreateMovementRequest")
+	proto.RegisterType((*ReadMovementRequest)(nil), "shrike.ReadMovementRequest")
+	proto.RegisterType((*ListMovementsRequest)(nil), "shrike.ListMovementsRequest")
+	proto.RegisterType((*Movement)(nil), "shrike.Movement")
+	proto.RegisterType((*CreateMovementResponse)(nil), "shrike.CreateMovementResponse")
+	proto.RegisterType((*ReadMovementResponse)(nil), "shrike.ReadMovementResponse")
+	proto.RegisterType((*ListMovementsResponse)(nil), "shrike.ListMovementsResponse")
 }
 
 func init() { proto.RegisterFile("shrike.proto", fileDescriptor_2311c9d8f30f83c3) }
 
 var fileDescriptor_2311c9d8f30f83c3 = []byte{
-	// 385 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x94, 0x4f, 0x6b, 0xea, 0x40,
-	0x14, 0xc5, 0x9f, 0xa0, 0xbe, 0xe7, 0xd5, 0xe7, 0x7b, 0x8e, 0x29, 0x88, 0xb4, 0xd0, 0x66, 0xe5,
-	0xa6, 0x52, 0xda, 0x45, 0xff, 0xb7, 0xfe, 0x03, 0x29, 0xb5, 0x50, 0x94, 0x74, 0x3f, 0xea, 0x6d,
-	0x1c, 0x6a, 0x66, 0xec, 0xcc, 0x44, 0xe8, 0xf7, 0xe8, 0x07, 0x2e, 0xc9, 0x18, 0x51, 0x68, 0x17,
-	0x13, 0x77, 0xb9, 0xe1, 0x9c, 0x73, 0xcf, 0xfc, 0x98, 0x04, 0x4a, 0x6a, 0x26, 0xd9, 0x1b, 0x36,
-	0x17, 0x52, 0x68, 0x41, 0xf2, 0x66, 0x72, 0xf7, 0x21, 0xeb, 0x79, 0x0f, 0x3d, 0xe2, 0x40, 0x6e,
-	0x49, 0xe7, 0x21, 0xd6, 0x32, 0x87, 0x99, 0x46, 0x61, 0x68, 0x06, 0xf7, 0x08, 0x8a, 0x23, 0x1d,
-	0x8e, 0x87, 0xf8, 0x1e, 0xa2, 0xd2, 0x84, 0x40, 0x96, 0xd3, 0x20, 0xd1, 0xc4, 0xcf, 0x6e, 0x03,
-	0x4a, 0x46, 0xa2, 0x16, 0x82, 0x2b, 0x24, 0x35, 0xf8, 0x1d, 0xa0, 0x52, 0xd4, 0x4f, 0x64, 0xc9,
-	0xe8, 0x1e, 0xc3, 0x5e, 0x57, 0x22, 0xd5, 0xf8, 0x24, 0x96, 0x18, 0x20, 0xd7, 0x49, 0xac, 0x03,
-	0x39, 0xcd, 0xf4, 0x7c, 0xbd, 0x3b, 0x1e, 0x4e, 0x3f, 0x01, 0xf2, 0xa3, 0xb8, 0x24, 0xe9, 0x40,
-	0xd5, 0x38, 0xbb, 0x82, 0xbf, 0x32, 0x3f, 0x94, 0x54, 0x33, 0xc1, 0x49, 0xb5, 0xb9, 0x3a, 0xd2,
-	0x46, 0xc7, 0xba, 0xb3, 0xfd, 0xd2, 0xb4, 0x72, 0x7f, 0x91, 0x16, 0x54, 0x86, 0x48, 0xa7, 0x3b,
-	0x24, 0x74, 0xa0, 0xea, 0x2d, 0xa6, 0xbb, 0xb5, 0xe8, 0x82, 0xd3, 0x43, 0xa5, 0xa5, 0xf8, 0xd8,
-	0x21, 0xe4, 0x12, 0xc0, 0xe0, 0xf0, 0x14, 0x4a, 0x3b, 0xeb, 0x39, 0xfc, 0x89, 0x28, 0xd8, 0x1b,
-	0x2f, 0xa0, 0x30, 0x60, 0x4a, 0x47, 0x46, 0x65, 0xdd, 0xd6, 0x60, 0xb3, 0x5f, 0x7a, 0x05, 0xc5,
-	0xb6, 0x9c, 0xcc, 0xd8, 0x32, 0x85, 0xb7, 0x0f, 0xe5, 0xed, 0xdb, 0x46, 0x0e, 0x12, 0xe5, 0xb7,
-	0xb7, 0xf0, 0xc7, 0xa0, 0x6b, 0x28, 0x45, 0xc8, 0xd6, 0x31, 0x56, 0x2d, 0x6e, 0xe0, 0x6f, 0x84,
-	0x2d, 0x31, 0x5b, 0xa2, 0xbb, 0x85, 0xb2, 0x41, 0x97, 0x6e, 0xf9, 0x1d, 0xfc, 0x5b, 0xe1, 0x4b,
-	0xe7, 0x6f, 0x41, 0xc5, 0xa0, 0x1a, 0x50, 0x3e, 0x65, 0xdc, 0x7f, 0xa6, 0x3e, 0x5a, 0x37, 0x88,
-	0xd8, 0xa5, 0xf6, 0xdf, 0xc3, 0xff, 0x08, 0xdf, 0x86, 0x5f, 0x59, 0x1f, 0xc1, 0x10, 0x4c, 0x5d,
-	0xa1, 0x0d, 0x64, 0x05, 0x31, 0x75, 0xc4, 0x23, 0xd4, 0xfb, 0xa8, 0x5f, 0xc4, 0x3c, 0xe4, 0x1a,
-	0x51, 0x0e, 0xc4, 0x24, 0xfe, 0xe8, 0x47, 0x5a, 0x22, 0x0d, 0xac, 0xa2, 0x4e, 0x32, 0xe3, 0x7c,
-	0xfc, 0xff, 0x3e, 0xfb, 0x0a, 0x00, 0x00, 0xff, 0xff, 0x3d, 0xf5, 0x5e, 0xcc, 0xcf, 0x05, 0x00,
+	// 577 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x55, 0xdd, 0x6e, 0xd3, 0x30,
+	0x14, 0x26, 0xfd, 0x19, 0xdb, 0x69, 0x57, 0x3a, 0x37, 0x43, 0x51, 0xd9, 0x50, 0x89, 0x86, 0xb4,
+	0x0b, 0x34, 0xa1, 0x71, 0xc1, 0x8f, 0xd8, 0xd8, 0xd6, 0x4a, 0xa8, 0x5a, 0x41, 0xd0, 0xaa, 0xdc,
+	0x7b, 0xcd, 0x59, 0x67, 0xd1, 0x24, 0xc5, 0x76, 0x2a, 0xf1, 0x0a, 0xbc, 0x02, 0x2f, 0xc3, 0xa3,
+	0x21, 0xdb, 0x4d, 0xd6, 0x56, 0xe9, 0xa4, 0xa4, 0x77, 0x3e, 0x3e, 0xe7, 0x3b, 0xfe, 0xbe, 0x2f,
+	0xf6, 0x09, 0x54, 0xc5, 0x1d, 0x67, 0x3f, 0xf1, 0x64, 0xca, 0x43, 0x19, 0x92, 0x2d, 0x13, 0xb9,
+	0x07, 0x50, 0x1a, 0x0e, 0xbb, 0x1d, 0x62, 0x43, 0x79, 0x46, 0x27, 0x11, 0x3a, 0x56, 0xcb, 0x3a,
+	0xde, 0xe9, 0x9b, 0xc0, 0x7d, 0x01, 0x95, 0x81, 0x8c, 0x6e, 0xfa, 0xf8, 0x2b, 0x42, 0x21, 0x09,
+	0x81, 0x52, 0x40, 0xfd, 0xb8, 0x46, 0xaf, 0xdd, 0x63, 0xa8, 0x9a, 0x12, 0x31, 0x0d, 0x03, 0x81,
+	0xc4, 0x81, 0xc7, 0x3e, 0x0a, 0x41, 0xc7, 0x71, 0x59, 0x1c, 0xba, 0x7f, 0x2d, 0xd8, 0x6f, 0x73,
+	0xa4, 0x12, 0xbf, 0x84, 0x33, 0xf4, 0x31, 0x90, 0x71, 0x5f, 0x1b, 0xca, 0x92, 0xc9, 0x49, 0x72,
+	0xb8, 0x0e, 0x48, 0x0b, 0x2a, 0x1e, 0x8a, 0x11, 0x67, 0x53, 0xc9, 0xc2, 0xc0, 0x29, 0xe8, 0xdc,
+	0xe2, 0x16, 0xa9, 0x43, 0x71, 0xd8, 0xef, 0x3a, 0x45, 0x9d, 0x51, 0x4b, 0x72, 0x04, 0xbb, 0xb7,
+	0x48, 0x65, 0xc4, 0xd1, 0xeb, 0xfa, 0x8a, 0x43, 0x49, 0xe7, 0x96, 0x37, 0x95, 0x8e, 0x48, 0x20,
+	0x77, 0xca, 0x46, 0x87, 0x5a, 0xbb, 0x2f, 0xa1, 0xd1, 0x47, 0xea, 0xad, 0x52, 0xab, 0x41, 0xa1,
+	0xdb, 0x99, 0xf3, 0x2a, 0x74, 0x3b, 0xee, 0x2b, 0xb0, 0x7b, 0x4c, 0xc8, 0xb8, 0x4c, 0x2c, 0x48,
+	0x98, 0x30, 0x9f, 0x49, 0x5d, 0x5a, 0xec, 0x9b, 0xc0, 0xfd, 0x63, 0xc1, 0x76, 0x5c, 0xba, 0xda,
+	0xea, 0x5e, 0x75, 0xe1, 0x01, 0xd5, 0xc5, 0xb5, 0xaa, 0x4b, 0x0f, 0xa8, 0x2e, 0xa7, 0xa8, 0x76,
+	0xcf, 0xe1, 0xe9, 0xaa, 0xfd, 0xf3, 0x6f, 0x76, 0x04, 0x25, 0x26, 0xd1, 0xd7, 0xdc, 0x2a, 0xa7,
+	0xf5, 0x93, 0xf9, 0x4d, 0x49, 0xea, 0x74, 0xd6, 0xfd, 0x08, 0xf6, 0xb2, 0x43, 0x99, 0xd0, 0x67,
+	0xb0, 0xbf, 0x62, 0xdc, 0x3d, 0xdc, 0xa3, 0x92, 0x3a, 0x56, 0xab, 0x98, 0x0e, 0x57, 0xd9, 0xd3,
+	0x7f, 0x00, 0x5b, 0x03, 0x9d, 0x21, 0x57, 0xd0, 0x30, 0x3a, 0xda, 0x61, 0x70, 0xcb, 0xc6, 0x11,
+	0xa7, 0xda, 0x96, 0x46, 0x8c, 0x5c, 0xb8, 0xb1, 0x4d, 0x7b, 0x79, 0xd3, 0x1c, 0xe9, 0x3e, 0x22,
+	0x17, 0xb0, 0xa7, 0xb4, 0x6c, 0xd0, 0xe1, 0x0a, 0x1a, 0xc3, 0xa9, 0xb7, 0x19, 0x8b, 0x36, 0xd8,
+	0x1d, 0x14, 0x92, 0x87, 0xbf, 0x37, 0x68, 0xf2, 0x1e, 0xc0, 0xd8, 0x31, 0x14, 0xc8, 0xb3, 0x41,
+	0xdf, 0xc2, 0xb6, 0x72, 0x21, 0x3b, 0xf0, 0x1d, 0xec, 0xa8, 0x8f, 0xa9, 0x80, 0x22, 0x33, 0x5b,
+	0x63, 0x5b, 0xf6, 0x43, 0x3f, 0x40, 0xe5, 0x92, 0x8f, 0xee, 0xd8, 0x2c, 0x07, 0xf6, 0x3b, 0xd4,
+	0x96, 0xef, 0x3e, 0x39, 0x8c, 0x2b, 0x53, 0x47, 0x52, 0xf3, 0xf9, 0xba, 0x74, 0xd2, 0xf2, 0x1a,
+	0xaa, 0x8b, 0xcf, 0x81, 0x3c, 0x8b, 0x11, 0x29, 0x63, 0xa4, 0x79, 0x90, 0x9e, 0x4c, 0x9a, 0x7d,
+	0x85, 0xdd, 0xa5, 0xd7, 0x41, 0x12, 0x40, 0xda, 0xb4, 0x69, 0x1e, 0xae, 0xc9, 0x26, 0xfd, 0xce,
+	0xa0, 0x66, 0x6c, 0x4e, 0xe8, 0x65, 0xb2, 0xeb, 0x1c, 0x9e, 0xcc, 0xad, 0xce, 0x87, 0xbf, 0x80,
+	0x3d, 0xe3, 0x5b, 0x8f, 0x06, 0x1e, 0x0b, 0xc6, 0xdf, 0xd4, 0xd4, 0xcd, 0xca, 0x40, 0x59, 0x95,
+	0x1b, 0xff, 0x09, 0xea, 0xca, 0x9b, 0x05, 0xbc, 0xc8, 0x2c, 0xc1, 0x38, 0x98, 0x9b, 0xc2, 0x25,
+	0x90, 0xb9, 0x89, 0xb9, 0x5b, 0x5c, 0x43, 0xf3, 0x33, 0xca, 0x1f, 0xe1, 0x24, 0x0a, 0x24, 0x22,
+	0xef, 0x85, 0x23, 0x3d, 0x20, 0x06, 0x92, 0x23, 0xf5, 0x33, 0xb5, 0x7a, 0x6d, 0xdd, 0x6c, 0xe9,
+	0x3f, 0xff, 0x9b, 0xff, 0x01, 0x00, 0x00, 0xff, 0xff, 0x78, 0x18, 0x4e, 0x08, 0x09, 0x08, 0x00,
 	0x00,
 }
 
@@ -241,9 +557,9 @@ type ShrikeClient interface {
 	ListUsers(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	UpdateUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	ArchiveUser(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
-	CreateMovement(ctx context.Context, in *CreateMovementRequest, opts ...grpc.CallOption) (*StubResponse, error)
-	ReadMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
-	ListMovements(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
+	CreateMovement(ctx context.Context, in *CreateMovementRequest, opts ...grpc.CallOption) (*CreateMovementResponse, error)
+	ReadMovement(ctx context.Context, in *ReadMovementRequest, opts ...grpc.CallOption) (*ReadMovementResponse, error)
+	ListMovements(ctx context.Context, in *ListMovementsRequest, opts ...grpc.CallOption) (*ListMovementsResponse, error)
 	UpdateMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	ArchiveMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
 	CreateLandingPage(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error)
@@ -343,8 +659,8 @@ func (c *shrikeClient) ArchiveUser(ctx context.Context, in *StubRequest, opts ..
 	return out, nil
 }
 
-func (c *shrikeClient) CreateMovement(ctx context.Context, in *CreateMovementRequest, opts ...grpc.CallOption) (*StubResponse, error) {
-	out := new(StubResponse)
+func (c *shrikeClient) CreateMovement(ctx context.Context, in *CreateMovementRequest, opts ...grpc.CallOption) (*CreateMovementResponse, error) {
+	out := new(CreateMovementResponse)
 	err := c.cc.Invoke(ctx, "/shrike.Shrike/CreateMovement", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -352,8 +668,8 @@ func (c *shrikeClient) CreateMovement(ctx context.Context, in *CreateMovementReq
 	return out, nil
 }
 
-func (c *shrikeClient) ReadMovement(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
-	out := new(StubResponse)
+func (c *shrikeClient) ReadMovement(ctx context.Context, in *ReadMovementRequest, opts ...grpc.CallOption) (*ReadMovementResponse, error) {
+	out := new(ReadMovementResponse)
 	err := c.cc.Invoke(ctx, "/shrike.Shrike/ReadMovement", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -361,8 +677,8 @@ func (c *shrikeClient) ReadMovement(ctx context.Context, in *StubRequest, opts .
 	return out, nil
 }
 
-func (c *shrikeClient) ListMovements(ctx context.Context, in *StubRequest, opts ...grpc.CallOption) (*StubResponse, error) {
-	out := new(StubResponse)
+func (c *shrikeClient) ListMovements(ctx context.Context, in *ListMovementsRequest, opts ...grpc.CallOption) (*ListMovementsResponse, error) {
+	out := new(ListMovementsResponse)
 	err := c.cc.Invoke(ctx, "/shrike.Shrike/ListMovements", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -476,9 +792,9 @@ type ShrikeServer interface {
 	ListUsers(context.Context, *StubRequest) (*StubResponse, error)
 	UpdateUser(context.Context, *StubRequest) (*StubResponse, error)
 	ArchiveUser(context.Context, *StubRequest) (*StubResponse, error)
-	CreateMovement(context.Context, *CreateMovementRequest) (*StubResponse, error)
-	ReadMovement(context.Context, *StubRequest) (*StubResponse, error)
-	ListMovements(context.Context, *StubRequest) (*StubResponse, error)
+	CreateMovement(context.Context, *CreateMovementRequest) (*CreateMovementResponse, error)
+	ReadMovement(context.Context, *ReadMovementRequest) (*ReadMovementResponse, error)
+	ListMovements(context.Context, *ListMovementsRequest) (*ListMovementsResponse, error)
 	UpdateMovement(context.Context, *StubRequest) (*StubResponse, error)
 	ArchiveMovement(context.Context, *StubRequest) (*StubResponse, error)
 	CreateLandingPage(context.Context, *StubRequest) (*StubResponse, error)
@@ -520,13 +836,13 @@ func (*UnimplementedShrikeServer) UpdateUser(ctx context.Context, req *StubReque
 func (*UnimplementedShrikeServer) ArchiveUser(ctx context.Context, req *StubRequest) (*StubResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ArchiveUser not implemented")
 }
-func (*UnimplementedShrikeServer) CreateMovement(ctx context.Context, req *CreateMovementRequest) (*StubResponse, error) {
+func (*UnimplementedShrikeServer) CreateMovement(ctx context.Context, req *CreateMovementRequest) (*CreateMovementResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMovement not implemented")
 }
-func (*UnimplementedShrikeServer) ReadMovement(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+func (*UnimplementedShrikeServer) ReadMovement(ctx context.Context, req *ReadMovementRequest) (*ReadMovementResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadMovement not implemented")
 }
-func (*UnimplementedShrikeServer) ListMovements(ctx context.Context, req *StubRequest) (*StubResponse, error) {
+func (*UnimplementedShrikeServer) ListMovements(ctx context.Context, req *ListMovementsRequest) (*ListMovementsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMovements not implemented")
 }
 func (*UnimplementedShrikeServer) UpdateMovement(ctx context.Context, req *StubRequest) (*StubResponse, error) {
@@ -739,7 +1055,7 @@ func _Shrike_CreateMovement_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _Shrike_ReadMovement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StubRequest)
+	in := new(ReadMovementRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -751,13 +1067,13 @@ func _Shrike_ReadMovement_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/shrike.Shrike/ReadMovement",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShrikeServer).ReadMovement(ctx, req.(*StubRequest))
+		return srv.(ShrikeServer).ReadMovement(ctx, req.(*ReadMovementRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Shrike_ListMovements_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StubRequest)
+	in := new(ListMovementsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -769,7 +1085,7 @@ func _Shrike_ListMovements_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/shrike.Shrike/ListMovements",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShrikeServer).ListMovements(ctx, req.(*StubRequest))
+		return srv.(ShrikeServer).ListMovements(ctx, req.(*ListMovementsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
