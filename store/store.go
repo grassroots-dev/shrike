@@ -171,6 +171,39 @@ func ListMovements() (*[]Movement, error) {
 	return &movements, nil
 }
 
+func getColumnsToEdit() []string {
+	return []string{"title", "description", "featured_image", "uri"}
+}
+
+// UpdateMovement takes in a Movement ID and updates the fields found to be non default in struct.
+func UpdateMovement(updatedMovement *Movement) (*Movement, error) {
+	db := pg.Connect(pgOptions)
+	defer db.Close()
+	_, err := db.Model(updatedMovement).Column(getColumnsToEdit()...).WherePK().Returning("*").Update(updatedMovement)
+	if err != nil {
+		return nil, err
+	}
+	return updatedMovement, nil
+}
+
+// DeleteMovement removes a single movement by primary key.
+func DeleteMovement(id string) (*Movement, error) {
+	db := pg.Connect(pgOptions)
+	defer db.Close()
+
+	movementID, err := uuid.FromString(id)
+	if err != nil {
+		return nil, err
+	}
+	// Select movement to delete by primary key.
+	movement := &Movement{ID: movementID}
+	err = db.Delete(movement)
+	if err != nil {
+		return nil, err
+	}
+	return movement, nil
+}
+
 func createSchema(db *pg.DB) error {
 	for _, model := range []interface{}{(*Configuration)(nil), (*User)(nil), (*Movement)(nil), (*LandingPage)(nil), (*Story)(nil)} {
 		err := db.CreateTable(model, &orm.CreateTableOptions{})

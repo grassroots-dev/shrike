@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/gofrs/uuid"
 	pb "github.com/grassroots-dev/shrike/api"
 	"github.com/grassroots-dev/shrike/store"
 	"google.golang.org/grpc/codes"
@@ -112,6 +113,16 @@ func (s *Service) ArchiveUser(ctx context.Context, in *pb.StubRequest) (*pb.Stub
 	return &pb.StubResponse{Message: "Response for ArchiveUser"}, nil
 }
 
+func convertPGtoProto(pg store.Movement) *pb.Movement {
+	return &pb.Movement{
+		ID:            pg.ID.String(),
+		Title:         pg.Title,
+		Description:   pg.Description,
+		URI:           pg.URI,
+		FeaturedImage: pg.FeaturedImage,
+	}
+}
+
 // CreateMovement will create the current Movement state.
 func (s *Service) CreateMovement(ctx context.Context, in *pb.CreateMovementRequest) (*pb.CreateMovementResponse, error) {
 	newMovement, err := store.CreateMovement(in.Title, in.User, in.Description, in.URI, in.FeaturedImage)
@@ -119,7 +130,7 @@ func (s *Service) CreateMovement(ctx context.Context, in *pb.CreateMovementReque
 		return nil, status.Error(codes.Unknown, "persistent store failed to create Movement ->"+err.Error())
 	}
 
-	return &pb.CreateMovementResponse{Item: &pb.Movement{ID: newMovement.ID.String(), Title: newMovement.Title, Description: newMovement.Description, URI: newMovement.URI, FeaturedImage: newMovement.FeaturedImage}}, nil
+	return &pb.CreateMovementResponse{Item: convertPGtoProto(*newMovement)}, nil
 }
 
 // ReadMovement will read the current Movement state.
@@ -146,23 +157,42 @@ func (s *Service) ListMovements(ctx context.Context, in *pb.ListMovementsRequest
 }
 
 // UpdateMovement will check the current Movement state.
-func (s *Service) UpdateMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.InitializeDB()
+func (s *Service) UpdateMovement(ctx context.Context, in *pb.UpdateMovementRequest) (*pb.UpdateMovementResponse, error) {
+	idFromString, err := uuid.FromString(in.Item.ID)
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "unable to create valid UUID from input"+err.Error())
+	}
+
+	creatorID, err := uuid.FromString("bd84693a-7191-40e3-90a7-eb77eda808c1")
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "unable to convert string to UUID of creator"+err.Error())
+	}
+
+	updatedMovement := &store.Movement{
+		ID:            idFromString,
+		Title:         in.Item.Title,
+		Description:   in.Item.Description,
+		URI:           in.Item.URI,
+		FeaturedImage: in.Item.FeaturedImage,
+		CreatorID:     creatorID, //This can come from a value injected by interceptor
+	}
+
+	movement, err := store.UpdateMovement(updatedMovement)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to update Movement ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: "Response for UpdateMovement"}, nil
+	return &pb.UpdateMovementResponse{Item: convertPGtoProto(*movement)}, nil
 }
 
-// ArchiveMovement will check the current Movement state.
-func (s *Service) ArchiveMovement(ctx context.Context, in *pb.StubRequest) (*pb.StubResponse, error) {
-	err := store.DestroyDB()
+// DeleteMovement will check the current Movement state.
+func (s *Service) DeleteMovement(ctx context.Context, in *pb.DeleteMovementRequest) (*pb.DeleteMovementResponse, error) {
+	movement, err := store.DeleteMovement(in.ID)
 	if err != nil {
-		return nil, status.Error(codes.Unknown, "persistent store failed to archive Movement ->"+err.Error())
+		return nil, status.Error(codes.Unknown, "persistent store failed to Delete Movement ->"+err.Error())
 	}
 
-	return &pb.StubResponse{Message: "Response for ArchiveMovement"}, nil
+	return &pb.DeleteMovementResponse{Item: convertPGtoProto(*movement)}, nil
 }
 
 // CreateLandingPage will check the current LandingPage state.

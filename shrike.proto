@@ -17,8 +17,8 @@ service Shrike {
     rpc CreateMovement (CreateMovementRequest) returns (CreateMovementResponse) {}
     rpc ReadMovement (ReadMovementRequest) returns (ReadMovementResponse) {}
     rpc ListMovements (ListMovementsRequest) returns (ListMovementsResponse) {}
-    rpc UpdateMovement(StubRequest) returns (StubResponse) {}
-    rpc ArchiveMovement (StubRequest) returns (StubResponse) {}
+    rpc UpdateMovement(UpdateMovementRequest) returns (UpdateMovementResponse) {}
+    rpc DeleteMovement (DeleteMovementRequest) returns (DeleteMovementResponse) {}
 
     rpc CreateLandingPage (StubRequest) returns (StubResponse) {}
     rpc ReadLandingPage (StubRequest) returns (StubResponse) {}
@@ -43,6 +43,18 @@ message StubResponse{
   string message = 1;
 }
 
+
+// MOVEMENT MESSAGE TYPES
+message Movement{
+  string ID = 1;
+  string title = 2;
+  string description = 3;
+  string URI = 4;
+  string featuredImage = 5;
+}
+
+
+// Request Message Types
 message CreateMovementRequest{
   string title = 1;
   string description = 2;
@@ -57,16 +69,19 @@ message ReadMovementRequest{
 
 message ListMovementsRequest{
   int64 limit = 1;
+  string filter = 2;
+  string sort = 3;
 }
 
-message Movement{
+message UpdateMovementRequest{
+  Movement item = 1;
+}
+
+message DeleteMovementRequest{
   string ID = 1;
-  string title = 2;
-  string description = 3;
-  string URI = 4;
-  string featuredImage = 5;
 }
 
+// Response Message Types
 message CreateMovementResponse{
   Movement item = 1;
 }
@@ -77,4 +92,12 @@ message ReadMovementResponse{
 
 message ListMovementsResponse{
   repeated Movement data = 1;
+}
+
+message UpdateMovementResponse{
+  Movement item = 1;
+}
+
+message DeleteMovementResponse{
+  Movement item = 1;
 }
