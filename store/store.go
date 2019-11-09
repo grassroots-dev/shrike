@@ -1,3 +1,4 @@
+// Package store is responsible for persisting data to postgres.
 package store
 
 import (
@@ -115,30 +116,21 @@ func DestroyDB() error {
 }
 
 // CreateMovement creates a movement.
-func CreateMovement(title string, user string, description string, uri string, featuredImage string) (*Movement, error) {
+func CreateMovement(newMovement Movement) (*Movement, error) {
 	db := pg.Connect(pgOptions)
 	defer db.Close()
+
+	// CREATE THE UNIQUE KEY HERE FOR MORE CONTROL
 	newID, err := uuid.NewV4()
 	if err != nil {
 		return nil, err
 	}
-	creator, err := uuid.FromString(user)
+	newMovement.ID = newID
+	err = db.Insert(&newMovement)
 	if err != nil {
 		return nil, err
 	}
-	newMovement := &Movement{
-		ID:            newID,
-		Title:         title,
-		Description:   description,
-		URI:           uri,
-		FeaturedImage: featuredImage,
-		CreatorID:     creator,
-	}
-	err = db.Insert(newMovement)
-	if err != nil {
-		return nil, err
-	}
-	return newMovement, nil
+	return &newMovement, nil
 }
 
 // GetMovement returns a single movement by primary key.
@@ -171,6 +163,10 @@ func ListMovements() (*[]Movement, error) {
 	return &movements, nil
 }
 
+// a function to return columns which have been updated to insert in DB, ignoring unchanged columns.
+// Uses introspection to find struct fields that should be included in update.
+// TODO: This currently returns all editable fields on the type. This will result in empty values
+// overwriting data.
 func getColumnsToEdit() []string {
 	return []string{"title", "description", "featured_image", "uri"}
 }
@@ -204,6 +200,8 @@ func DeleteMovement(id string) (*Movement, error) {
 	return movement, nil
 }
 
+// A way to destry and create the existing schema easily during development.
+// TODO: Code Gen this from the model structs.
 func createSchema(db *pg.DB) error {
 	for _, model := range []interface{}{(*Configuration)(nil), (*User)(nil), (*Movement)(nil), (*LandingPage)(nil), (*Story)(nil)} {
 		err := db.CreateTable(model, &orm.CreateTableOptions{})

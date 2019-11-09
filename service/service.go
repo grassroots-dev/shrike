@@ -1,3 +1,7 @@
+// Package Service is a gRPC service. It implements all of the service methods defined
+// in the proto file. Authentication will happen on the per method level, still deciding on a pattern
+// but using interceptors and by decorating the methods I should be able to have a decent permissions
+// framework.
 package service
 
 import (
@@ -123,9 +127,28 @@ func convertPGtoProto(pg store.Movement) *pb.Movement {
 	}
 }
 
+func convertProtoToPg(pb *pb.CreateMovement) store.Movement {
+	return store.Movement{
+		Title:         pb.Title,
+		Description:   pb.Description,
+		URI:           pb.URI,
+		FeaturedImage: pb.FeaturedImage,
+	}
+}
+
 // CreateMovement will create the current Movement state.
 func (s *Service) CreateMovement(ctx context.Context, in *pb.CreateMovementRequest) (*pb.CreateMovementResponse, error) {
-	newMovement, err := store.CreateMovement(in.Title, in.User, in.Description, in.URI, in.FeaturedImage)
+
+	creatorID, err := uuid.FromString("bd84693a-7191-40e3-90a7-eb77eda808c1")
+	if err != nil {
+		return nil, status.Error(codes.Unknown, "unable to convert string to UUID of creator"+err.Error())
+	}
+	// Create the movement object and set the creator ID to user invoking the endpoint.
+	movement := convertProtoToPg(in.Item)
+	movement.CreatorID = creatorID
+
+	// Call the db store to attempt creating the db row.
+	newMovement, err := store.CreateMovement(movement)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to create Movement ->"+err.Error())
 	}
