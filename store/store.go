@@ -134,8 +134,8 @@ func CreateMovement(newMovement Movement) (*Movement, error) {
 	return &newMovement, nil
 }
 
-// GetMovement returns a single movement by primary key.
-func GetMovement(id string) (*Movement, error) {
+// ReadMovement returns a single movement by primary key.
+func ReadMovement(id string) (*Movement, error) {
 	db := pg.Connect(pgOptions)
 	defer db.Close()
 

@@ -158,7 +158,7 @@ func (s *Service) CreateMovement(ctx context.Context, in *pb.CreateMovementReque
 
 // ReadMovement will read the current Movement state.
 func (s *Service) ReadMovement(ctx context.Context, in *pb.ReadMovementRequest) (*pb.ReadMovementResponse, error) {
-	movement, err := store.GetMovement(in.ID)
+	movement, err := store.ReadMovement(in.ID)
 	if err != nil {
 		return nil, status.Error(codes.Unknown, "persistent store failed to read Movement ->"+err.Error())
 	}
