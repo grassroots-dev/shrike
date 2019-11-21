@@ -18,68 +18,6 @@ var pgOptions = &pg.Options{
 	Addr:       "localhost:5432",
 }
 
-// Configuration is a struct for the Configuration model.
-type Configuration struct {
-	ID     uuid.UUID `sql:",type:uuid"`
-	Active bool
-}
-
-func (u Configuration) String() string {
-	return fmt.Sprintf("User<%d %t>", u.ID, u.Active)
-}
-
-// User is a struct for the user model.
-type User struct {
-	ID     uuid.UUID `sql:",type:uuid"`
-	Name   string
-	Emails []string
-}
-
-func (u User) String() string {
-	return fmt.Sprintf("User<%d %s %v>", u.ID, u.Name, u.Emails)
-}
-
-// Movement is a core model representing an organization.
-type Movement struct {
-	ID            uuid.UUID `sql:",type:uuid"`
-	Title         string
-	Description   string
-	URI           string
-	FeaturedImage string
-	CreatorID     uuid.UUID `sql:",type:uuid"`
-	Creator       *User
-}
-
-func (s Movement) String() string {
-	return fmt.Sprintf("Movement<%d %s %s>", s.ID, s.Title, s.Creator)
-}
-
-// LandingPage is a struct representing a reachable html endpoint.
-type LandingPage struct {
-	ID         uuid.UUID `sql:",type:uuid"`
-	Title      string
-	CreatorID  int64
-	Creator    *User
-	MovementID uuid.UUID `sql:",type:uuid"`
-	Movement   *Movement
-}
-
-func (s LandingPage) String() string {
-	return fmt.Sprintf("LandingPage<%d %s %s>", s.ID, s.Title, s.Creator)
-}
-
-// Story is a struct for the story model.
-type Story struct {
-	ID       uuid.UUID `sql:",type:uuid"`
-	Title    string
-	AuthorID uuid.UUID `sql:",type:uuid"`
-	Author   *User
-}
-
-func (s Story) String() string {
-	return fmt.Sprintf("Story<%d %s %s>", s.ID, s.Title, s.Author)
-}
-
 // InitializeDB runs the pg ORM example.
 func InitializeDB() error {
 	db := pg.Connect(pgOptions)
@@ -116,56 +54,8 @@ func DestroyDB() error {
 	return nil
 }
 
-// CreateMovement creates a movement.
-func CreateMovement(newMovement Movement) (*Movement, error) {
-	db := pg.Connect(pgOptions)
-	defer db.Close()
-
-	// CREATE THE UNIQUE KEY HERE FOR MORE CONTROL
-	newID, err := uuid.NewV4()
-	if err != nil {
-		return nil, err
-	}
-	newMovement.ID = newID
-	err = db.Insert(&newMovement)
-	if err != nil {
-		return nil, err
-	}
-	return &newMovement, nil
-}
-
-// ReadMovement returns a single movement by primary key.
-func ReadMovement(id string) (*Movement, error) {
-	db := pg.Connect(pgOptions)
-	defer db.Close()
-
-	movementID, err := uuid.FromString(id)
-	if err != nil {
-		return nil, err
-	}
-	// Select user by primary key.
-	movement := &Movement{ID: movementID}
-	err = db.Select(movement)
-	if err != nil {
-		return nil, err
-	}
-	return movement, nil
-}
-
-// ListMovements returns a list of Movements.
-func ListMovements() (*[]Movement, error) {
-	db := pg.Connect(pgOptions)
-	defer db.Close()
-	var movements []Movement
-	err := db.Model(&movements).Select()
-	if err != nil {
-		return nil, err
-	}
-	return &movements, nil
-}
-
 // a function to return columns which have been updated to insert in DB, ignoring unchanged columns.
-// Uses introspection to find struct fields that should be included in update.
+// Uses introspection to find struct fields that should be included in update and return as snake case table names.
 func getColumnsToEdit(m Movement) []string {
 	v := reflect.ValueOf(m)
 	typeOfM := v.Type()
@@ -178,35 +68,6 @@ func getColumnsToEdit(m Movement) []string {
 		}
 	}
 	return fieldsToUpdate
-}
-
-// UpdateMovement takes in a Movement ID and updates the fields found to be non default in struct.
-func UpdateMovement(updatedMovement *Movement) (*Movement, error) {
-	db := pg.Connect(pgOptions)
-	defer db.Close()
-	_, err := db.Model(updatedMovement).Column(getColumnsToEdit(*updatedMovement)...).WherePK().Returning("*").Update(updatedMovement)
-	if err != nil {
-		return nil, err
-	}
-	return updatedMovement, nil
-}
-
-// DeleteMovement removes a single movement by primary key.
-func DeleteMovement(id string) (*Movement, error) {
-	db := pg.Connect(pgOptions)
-	defer db.Close()
-
-	movementID, err := uuid.FromString(id)
-	if err != nil {
-		return nil, err
-	}
-	// Select movement to delete by primary key.
-	movement := &Movement{ID: movementID}
-	err = db.Delete(movement)
-	if err != nil {
-		return nil, err
-	}
-	return movement, nil
 }
 
 // A way to destry and create the existing schema easily during development.
