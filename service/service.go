@@ -1,4 +1,4 @@
-// Package Service is a gRPC service. It implements all of the service methods defined
+// Package service is a gRPC service. It implements all of the service methods defined
 // in the proto file. Authentication will happen on the per method level, still deciding on a pattern
 // but using interceptors and by decorating the methods I should be able to have a decent permissions
 // framework.
@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-// Service is a type represneting a configured server.
+// Service is a type representing a configured server.
 type Service struct {
 	DB      string
 	Cache   string
@@ -163,7 +163,7 @@ func (s *Service) ReadMovement(ctx context.Context, in *pb.ReadMovementRequest) 
 		return nil, status.Error(codes.Unknown, "persistent store failed to read Movement ->"+err.Error())
 	}
 
-	return &pb.ReadMovementResponse{Item: &pb.Movement{ID: movement.ID.String(), Title: movement.Title, Description: movement.Description, URI: movement.URI, FeaturedImage: movement.FeaturedImage}}, nil
+	return &pb.ReadMovementResponse{Item: convertPGtoProto(*movement)}, nil
 }
 
 // ListMovements will check the current Movement state.
@@ -174,7 +174,7 @@ func (s *Service) ListMovements(ctx context.Context, in *pb.ListMovementsRequest
 	}
 	list := []*pb.Movement{}
 	for _, movement := range *movements {
-		list = append(list, &pb.Movement{ID: movement.ID.String(), Title: movement.Title, Description: movement.Description, URI: movement.URI, FeaturedImage: movement.FeaturedImage})
+		list = append(list, convertPGtoProto(movement))
 	}
 	return &pb.ListMovementsResponse{Data: list}, nil
 }
@@ -186,18 +186,12 @@ func (s *Service) UpdateMovement(ctx context.Context, in *pb.UpdateMovementReque
 		return nil, status.Error(codes.Unknown, "unable to create valid UUID from input"+err.Error())
 	}
 
-	creatorID, err := uuid.FromString("bd84693a-7191-40e3-90a7-eb77eda808c1")
-	if err != nil {
-		return nil, status.Error(codes.Unknown, "unable to convert string to UUID of creator"+err.Error())
-	}
-
 	updatedMovement := &store.Movement{
 		ID:            idFromString,
 		Title:         in.Item.Title,
 		Description:   in.Item.Description,
 		URI:           in.Item.URI,
 		FeaturedImage: in.Item.FeaturedImage,
-		CreatorID:     creatorID, //This can come from a value injected by interceptor
 	}
 
 	movement, err := store.UpdateMovement(updatedMovement)

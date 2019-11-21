@@ -9,6 +9,7 @@ require (
 	github.com/grassroots-dev/shrike/api v0.0.0-20190915185703-018b8fc494d7
 	github.com/grassroots-dev/shrike/service v0.0.0-20190915174156-3353fac14c5b
 	github.com/grpc-ecosystem/go-grpc-middleware v1.1.0
+	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
 	github.com/satori/go.uuid v1.2.0 // indirect
 	google.golang.org/grpc v1.24.0
 )

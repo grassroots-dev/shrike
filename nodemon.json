@@ -1,6 +1,6 @@
 {
   "watch": ["*"],
-  "ext": "go",
+  "ext": "go,html",
   "ignore": ["*gen*.go"],
   "exec": " (killall -9 shrike || true ) && go run shrike.go || exit 1"
 }

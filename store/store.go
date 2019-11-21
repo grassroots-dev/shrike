@@ -1,12 +1,13 @@
-// Package store is responsible for persisting data to postgres.
 package store
 
 import (
 	"fmt"
+	"reflect"
 
 	"github.com/go-pg/pg/v9"
 	"github.com/go-pg/pg/v9/orm"
 	"github.com/gofrs/uuid"
+	"github.com/iancoleman/strcase"
 )
 
 var pgOptions = &pg.Options{
@@ -165,17 +166,25 @@ func ListMovements() (*[]Movement, error) {
 
 // a function to return columns which have been updated to insert in DB, ignoring unchanged columns.
 // Uses introspection to find struct fields that should be included in update.
-// TODO: This currently returns all editable fields on the type. This will result in empty values
-// overwriting data.
-func getColumnsToEdit() []string {
-	return []string{"title", "description", "featured_image", "uri"}
+func getColumnsToEdit(m Movement) []string {
+	v := reflect.ValueOf(m)
+	typeOfM := v.Type()
+	fieldsToUpdate := []string{}
+	for i := 0; i < v.NumField(); i++ {
+		if !v.Field(i).IsZero() {
+			fmt.Printf("Updating %s to %v\n", strcase.ToSnake(typeOfM.Field(i).Name), v.Field(i).Interface())
+
+			fieldsToUpdate = append(fieldsToUpdate, strcase.ToSnake(typeOfM.Field(i).Name))
+		}
+	}
+	return fieldsToUpdate
 }
 
 // UpdateMovement takes in a Movement ID and updates the fields found to be non default in struct.
 func UpdateMovement(updatedMovement *Movement) (*Movement, error) {
 	db := pg.Connect(pgOptions)
 	defer db.Close()
-	_, err := db.Model(updatedMovement).Column(getColumnsToEdit()...).WherePK().Returning("*").Update(updatedMovement)
+	_, err := db.Model(updatedMovement).Column(getColumnsToEdit(*updatedMovement)...).WherePK().Returning("*").Update(updatedMovement)
 	if err != nil {
 		return nil, err
 	}

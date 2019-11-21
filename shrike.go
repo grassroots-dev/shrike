@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"net"
+	"net/http"
 
 	pb "github.com/grassroots-dev/shrike/api"
 	"github.com/grassroots-dev/shrike/service"
@@ -58,6 +59,12 @@ func main() {
 	),
 	),
 	)
+
+	// Run configuration ui server.
+	go func() {
+		http.Handle("/", http.FileServer(http.Dir("./static")))
+		http.ListenAndServe(":8090", nil)
+	}()
 
 	// Configures the server with the shrike service and turns on reflection.
 	pb.RegisterShrikeServer(s, service.NewService("db", "cache", "storage"))
