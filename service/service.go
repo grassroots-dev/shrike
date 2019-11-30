@@ -10,6 +10,7 @@ import (
 
 	"github.com/gofrs/uuid"
 	pb "github.com/grassroots-dev/shrike/api"
+	"github.com/grassroots-dev/shrike/models"
 	"github.com/grassroots-dev/shrike/store"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -117,7 +118,7 @@ func (s *Service) ArchiveUser(ctx context.Context, in *pb.StubRequest) (*pb.Stub
 	return &pb.StubResponse{Message: "Response for ArchiveUser"}, nil
 }
 
-func convertPGtoProto(pg store.Movement) *pb.Movement {
+func convertPGtoProto(pg models.Movement) *pb.Movement {
 	return &pb.Movement{
 		ID:            pg.ID.String(),
 		Title:         pg.Title,
@@ -127,8 +128,8 @@ func convertPGtoProto(pg store.Movement) *pb.Movement {
 	}
 }
 
-func convertProtoToPg(pb *pb.CreateMovement) store.Movement {
-	return store.Movement{
+func convertProtoToPg(pb *pb.CreateMovement) models.Movement {
+	return models.Movement{
 		Title:         pb.Title,
 		Description:   pb.Description,
 		URI:           pb.URI,
@@ -186,7 +187,7 @@ func (s *Service) UpdateMovement(ctx context.Context, in *pb.UpdateMovementReque
 		return nil, status.Error(codes.Unknown, "unable to create valid UUID from input"+err.Error())
 	}
 
-	updatedMovement := &store.Movement{
+	updatedMovement := &models.Movement{
 		ID:            idFromString,
 		Title:         in.Item.Title,
 		Description:   in.Item.Description,

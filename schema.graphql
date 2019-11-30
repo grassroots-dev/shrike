@@ -1,0 +1,220 @@
+interface Item {
+  id: ID!
+  dateModified: DateTime
+  datePublished: DateTime
+}
+
+interface Person {
+  firstName: String
+  lastName: String
+}
+
+type User implements Item & Person {
+  displayName: String!
+}
+
+type Movement implements Item {
+  title: String
+  slug: String
+  description: String
+  tags: [Tag]
+  homePage: LandingPage
+  landingPages: [LandingPage]
+  articles: [Article]
+  boycotts: [Boycott]
+  supporterList: [SupporterList]
+  candidates: [Candidate]
+  issues: [Issue]
+  supporters: [User]
+  friends: [Movement]
+  events: [Event]
+  opportunities: [Opportunity]
+  petitions: [Petition]
+  polls: [Poll]
+  donations: [Donation]
+  fundRaisingDrives: [FundRaisingDrive]
+  volunteers: [Volunteer]
+  agents: [Agent]
+}
+
+type LandingPage implements Item {
+  title: String
+  slug: String
+  layout: Layout
+}
+
+type Layout implements Item {
+  landingPage: [LandingPage]
+}
+
+type Election implements Item {
+  title: String
+  slug: String
+  date: DateTime!
+  description: String
+  electionType: ElectionType
+  candidates: [Candidate]
+  issues: [Issue]
+}
+
+type Candidate implements Item & Person {
+  elections: [Election]
+  platform: String
+  movements: [Movement]
+}
+
+type Issue implements Item {
+  elections: [Election]
+  summary: String
+  content: String
+  movements: [Movement]
+}
+
+type Boycott implements Item {
+  companies: [Company]
+  movements: [Movement]
+}
+
+type SupporterList implements Item {
+  companies: [Company]
+  movements: [Movement]
+}
+
+type Company implements Item {
+  boycotts: [Boycott]
+  supporterLists: [SupporterList]
+}
+
+type Article implements Item {
+  title: String!
+  slug: String!
+  preview: String!
+  content: String!
+  movements: [Movement]
+}
+
+type Event implements Item {
+  title: String!
+  slug: String!
+  date: DateTime
+  description: String!
+  body: String!
+}
+
+type Opportunity implements Item {
+  title: String!
+  slug: String!
+  date: DateTime
+  description: String!
+  body: String!
+  volunteers: [Volunteer]
+}
+
+type FundRaisingDrive implements Item {
+  title: String!
+  slug: String!
+  goalType: GoalType
+}
+
+type Petition {
+  title: String!
+  slug: String!
+  description: String
+  body: String
+  goal: Int
+  signers: [User]
+}
+
+type Poll implements Item {
+  title: String!
+  slug: String!
+  respondants: [Respondant]
+  questions: Question
+}
+
+type Respondant implements Item {
+  user: User!
+  responses: [Response]
+}
+
+type Question implements Item {
+  question: String
+  choices: [String]
+}
+
+type Response implements Item {
+  respondant: Respondant
+  question: Question
+  answer: String
+}
+
+type Tag implements Item {
+  title: String
+  description: String
+  icon: String
+}
+
+type Donation implements Item {
+  user: User!
+  movement: Movement!
+  amountDollars: Int
+  amountCents: Int
+}
+
+type Agent implements Item {
+  user: User
+  movement: Movement
+  contacts: [Contact]
+  notes: [Note]
+  activity: [Activity]
+}
+
+type Note implements Item {
+  agent: Agent
+  user: Contact
+  text: String
+}
+
+type Activity implements Item {
+  agent: Agent
+  user: User
+  text: String
+}
+
+type Contact implements Item {
+  user: User
+  movement: Movement
+  phoneNumber: String
+  email: String
+  address: String
+}
+
+type Volunteer implements Item {
+  user: User
+  movement: Movement
+}
+
+enum Locality {
+  city
+  state
+  nation
+  world
+}
+
+enum GoalType {
+  lifetimeValue
+  recurringValue
+  numberOfDonors
+  perpetual
+}
+
+enum ProductType {
+  digital
+  physical
+  subscription
+}
+
+enum ElectionType {
+  candidate
+  issue
+}

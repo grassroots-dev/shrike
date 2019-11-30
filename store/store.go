@@ -7,6 +7,7 @@ import (
 	"github.com/go-pg/pg/v9"
 	"github.com/go-pg/pg/v9/orm"
 	"github.com/gofrs/uuid"
+	"github.com/grassroots-dev/shrike/models"
 	"github.com/iancoleman/strcase"
 )
 
@@ -30,7 +31,7 @@ func InitializeDB() error {
 	if err != nil {
 		return err
 	}
-	user1 := &User{
+	user1 := &models.User{
 		ID:     newID,
 		Name:   "admin",
 		Emails: []string{"stephen@callsignmedia.com"},
@@ -56,7 +57,7 @@ func DestroyDB() error {
 
 // a function to return columns which have been updated to insert in DB, ignoring unchanged columns.
 // Uses introspection to find struct fields that should be included in update and return as snake case table names.
-func getColumnsToEdit(m Movement) []string {
+func getColumnsToEdit(m models.Movement) []string {
 	v := reflect.ValueOf(m)
 	typeOfM := v.Type()
 	fieldsToUpdate := []string{}
@@ -70,10 +71,10 @@ func getColumnsToEdit(m Movement) []string {
 	return fieldsToUpdate
 }
 
-// A way to destry and create the existing schema easily during development.
+// A way to destroy and create the existing schema easily during development.
 // TODO: Code Gen this from the model structs.
 func createSchema(db *pg.DB) error {
-	for _, model := range []interface{}{(*Configuration)(nil), (*User)(nil), (*Movement)(nil), (*LandingPage)(nil), (*Story)(nil)} {
+	for _, model := range []interface{}{(*models.Configuration)(nil), (*models.User)(nil), (*models.Movement)(nil), (*models.LandingPage)(nil), (*models.Story)(nil)} {
 		err := db.CreateTable(model, &orm.CreateTableOptions{})
 		if err != nil {
 			return err
@@ -83,7 +84,7 @@ func createSchema(db *pg.DB) error {
 }
 
 func deleteSchema(db *pg.DB) error {
-	for _, model := range []interface{}{(*Configuration)(nil), (*User)(nil), (*Movement)(nil), (*LandingPage)(nil), (*Story)(nil)} {
+	for _, model := range []interface{}{(*models.Configuration)(nil), (*models.User)(nil), (*models.Movement)(nil), (*models.LandingPage)(nil), (*models.Story)(nil)} {
 		err := db.DropTable(model, &orm.DropTableOptions{})
 		if err != nil {
 			return err

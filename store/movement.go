@@ -5,10 +5,11 @@ import (
 
 	"github.com/go-pg/pg/v9"
 	"github.com/gofrs/uuid"
+	"github.com/grassroots-dev/shrike/models"
 )
 
 // CreateMovement creates a movement.
-func CreateMovement(newMovement Movement) (*Movement, error) {
+func CreateMovement(newMovement models.Movement) (*models.Movement, error) {
 	db := pg.Connect(pgOptions)
 	defer db.Close()
 
@@ -26,17 +27,17 @@ func CreateMovement(newMovement Movement) (*Movement, error) {
 }
 
 // ReadMovement returns a single movement by primary key.
-func ReadMovement(id string) (*Movement, error) {
+func ReadMovement(id string) (*models.Movement, error) {
 	db := pg.Connect(pgOptions)
 	defer db.Close()
-	x := User{Name: "hello"}
+	x := models.User{Name: "hello"}
 	fmt.Println(x)
 	movementID, err := uuid.FromString(id)
 	if err != nil {
 		return nil, err
 	}
 	// Select user by primary key.
-	movement := &Movement{ID: movementID}
+	movement := &models.Movement{ID: movementID}
 	err = db.Select(movement)
 	if err != nil {
 		return nil, err
@@ -45,10 +46,10 @@ func ReadMovement(id string) (*Movement, error) {
 }
 
 // ListMovements returns a list of Movements.
-func ListMovements() (*[]Movement, error) {
+func ListMovements() (*[]models.Movement, error) {
 	db := pg.Connect(pgOptions)
 	defer db.Close()
-	var movements []Movement
+	var movements []models.Movement
 	err := db.Model(&movements).Select()
 	if err != nil {
 		return nil, err
@@ -57,7 +58,7 @@ func ListMovements() (*[]Movement, error) {
 }
 
 // UpdateMovement takes in a Movement ID and updates the fields found to be non default in struct.
-func UpdateMovement(updatedMovement *Movement) (*Movement, error) {
+func UpdateMovement(updatedMovement *models.Movement) (*models.Movement, error) {
 	db := pg.Connect(pgOptions)
 	defer db.Close()
 	_, err := db.Model(updatedMovement).Column(getColumnsToEdit(*updatedMovement)...).WherePK().Returning("*").Update(updatedMovement)
@@ -68,7 +69,7 @@ func UpdateMovement(updatedMovement *Movement) (*Movement, error) {
 }
 
 // DeleteMovement removes a single movement by primary key.
-func DeleteMovement(id string) (*Movement, error) {
+func DeleteMovement(id string) (*models.Movement, error) {
 	db := pg.Connect(pgOptions)
 	defer db.Close()
 
@@ -77,7 +78,7 @@ func DeleteMovement(id string) (*Movement, error) {
 		return nil, err
 	}
 	// Select movement to delete by primary key.
-	movement := &Movement{ID: movementID}
+	movement := &models.Movement{ID: movementID}
 	err = db.Delete(movement)
 	if err != nil {
 		return nil, err

@@ -1,4 +1,4 @@
-package store
+package models
 
 import (
 	"fmt"
@@ -56,7 +56,7 @@ func (s LandingPage) String() string {
 	return fmt.Sprintf("LandingPage<%d %s %s>", s.ID, s.Title, s.Creator)
 }
 
-// Story is a struct for the story model.
+// Story is a struct datatype representing an article or story.
 type Story struct {
 	ID       uuid.UUID `sql:",type:uuid"`
 	Title    string
